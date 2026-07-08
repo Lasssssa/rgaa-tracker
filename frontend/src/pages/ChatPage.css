@@ -1,0 +1,135 @@
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 1.25rem;
+}
+
+.chat-header {
+  margin-bottom: 1rem;
+}
+
+.chat-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.chat-header .subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0.25rem;
+}
+
+.chat-empty {
+  margin: auto;
+  color: var(--muted);
+  text-align: center;
+}
+
+.chat-message {
+  display: flex;
+}
+
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.assistant {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 0.65rem 0.9rem;
+  border-radius: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-message.user .chat-bubble {
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message.assistant .chat-bubble {
+  background: var(--surface-alt);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+
+/* Typing indicator */
+.chat-typing {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.chat-typing span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: chat-bounce 1.2s infinite ease-in-out;
+}
+
+.chat-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.chat-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes chat-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* Input */
+.chat-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.chat-input textarea {
+  flex: 1;
+  resize: none;
+  max-height: 160px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.chat-input textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
