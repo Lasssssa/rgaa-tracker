@@ -1,10 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
-from app import models  # noqa: F401  (ensure models are registered on Base)
-from app.database import Base, engine
-from app.routers import projects, tickets
+# Import the models so their tables are registered on Base before create_all.
+from app.core.database import Base, engine
+from app.core.exceptions import EntityNotFoundError
+from app.modules.projects import models as _projects_models  # noqa: F401
+from app.modules.projects.router import router as projects_router
+from app.modules.tickets import models as _tickets_models  # noqa: F401
+from app.modules.tickets.router import router as tickets_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,8 +23,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(projects.router)
-app.include_router(tickets.router)
+
+@app.exception_handler(EntityNotFoundError)
+def handle_entity_not_found(_: Request, exc: EntityNotFoundError) -> JSONResponse:
+    """Translate a domain 'not found' error into HTTP 404 in one place, so
+    services never need to import anything from FastAPI."""
+    return JSONResponse(
+        status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)}
+    )
+
+
+app.include_router(projects_router)
+app.include_router(tickets_router)
 
 
 @app.get("/")

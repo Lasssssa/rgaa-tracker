@@ -1,19 +1,16 @@
 from datetime import date, datetime
+from typing import TYPE_CHECKING
 
-from sqlalchemy import (
-    Boolean,
-    Date,
-    DateTime,
-    Float,
-    ForeignKey,
-    Integer,
-    String,
-    Text,
-    func,
-)
+from sqlalchemy import Date, DateTime, Float, Integer, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.database import Base
+from app.core.database import Base
+
+if TYPE_CHECKING:
+    # Import only for type checkers to avoid a runtime circular import between
+    # the projects and tickets modules. SQLAlchemy resolves the "Ticket" string
+    # reference below at mapper-configuration time, so no real import is needed.
+    from app.modules.tickets.models import Ticket
 
 
 class Project(Base):
@@ -46,29 +43,3 @@ class Project(Base):
     @property
     def ticket_count(self) -> int:
         return len(self.tickets)
-
-
-class Ticket(Base):
-    __tablename__ = "tickets"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    project_id: Mapped[int] = mapped_column(
-        ForeignKey("projects.id", ondelete="CASCADE"), index=True, nullable=False
-    )
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    is_patched: Mapped[bool] = mapped_column(
-        Boolean, nullable=False, server_default="false", default=False
-    )
-
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True),
-        server_default=func.now(),
-        onupdate=func.now(),
-        nullable=False,
-    )
-
-    project: Mapped["Project"] = relationship(back_populates="tickets")
