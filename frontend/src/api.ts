@@ -7,6 +7,7 @@ export interface Project {
   audit_date: string | null
   gitlab_project_id: string | null
   global_compliance_rate: number | null
+  ticket_count: number
   created_at: string
   updated_at: string
 }
@@ -16,6 +17,21 @@ export interface ProjectInput {
   client?: string | null
   audit_date?: string | null
   gitlab_project_id?: string | null
+}
+
+export interface Ticket {
+  id: number
+  project_id: number
+  name: string
+  description: string | null
+  is_patched: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface TicketInput {
+  name: string
+  description?: string | null
 }
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
@@ -35,6 +51,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 
 export const projectsApi = {
   list: () => request<Project[]>('/projects'),
+  get: (id: number) => request<Project>(`/projects/${id}`),
   create: (data: ProjectInput) =>
     request<Project>('/projects', {
       method: 'POST',
@@ -47,4 +64,23 @@ export const projectsApi = {
     }),
   remove: (id: number) =>
     request<void>(`/projects/${id}`, { method: 'DELETE' }),
+}
+
+export const ticketsApi = {
+  list: (projectId: number) =>
+    request<Ticket[]>(`/projects/${projectId}/tickets`),
+  get: (id: number) => request<Ticket>(`/tickets/${id}`),
+  create: (projectId: number, data: TicketInput) =>
+    request<Ticket>(`/projects/${projectId}/tickets`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  update: (id: number, data: TicketInput) =>
+    request<Ticket>(`/tickets/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    }),
+  toggle: (id: number) =>
+    request<Ticket>(`/tickets/${id}/toggle`, { method: 'PUT' }),
+  remove: (id: number) => request<void>(`/tickets/${id}`, { method: 'DELETE' }),
 }

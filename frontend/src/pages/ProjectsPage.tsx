@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { projectsApi, type Project, type ProjectInput } from '../api'
 import ProjectForm from './ProjectForm'
 import './ProjectsPage.css'
@@ -96,6 +97,7 @@ export default function ProjectsPage() {
                 <th>Client</th>
                 <th>Date d'audit</th>
                 <th>Conformité</th>
+                <th>Tickets</th>
                 <th>GitLab</th>
                 <th className="actions-col">Actions</th>
               </tr>
@@ -103,12 +105,17 @@ export default function ProjectsPage() {
             <tbody>
               {projects.map((project) => (
                 <tr key={project.id}>
-                  <td data-label="Nom">{project.name}</td>
+                  <td data-label="Nom">
+                    <Link to={`/projects/${project.id}`} className="project-link">
+                      {project.name}
+                    </Link>
+                  </td>
                   <td data-label="Client">{project.client ?? '—'}</td>
                   <td data-label="Date d'audit">{formatDate(project.audit_date)}</td>
                   <td data-label="Conformité">
                     {formatRate(project.global_compliance_rate)}
                   </td>
+                  <td data-label="Tickets">{project.ticket_count}</td>
                   <td data-label="GitLab">{project.gitlab_project_id ?? '—'}</td>
                   <td data-label="Actions" className="actions-col">
                     <button

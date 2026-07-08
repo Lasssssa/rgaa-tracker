@@ -4,7 +4,7 @@ from sqlalchemy import text
 
 from app import models  # noqa: F401  (ensure models are registered on Base)
 from app.database import Base, engine
-from app.routers import projects
+from app.routers import projects, tickets
 
 Base.metadata.create_all(bind=engine)
 
@@ -19,6 +19,7 @@ app.add_middleware(
 )
 
 app.include_router(projects.router)
+app.include_router(tickets.router)
 
 
 @app.get("/")
