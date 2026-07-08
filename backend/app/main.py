@@ -2,7 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 
-from app.database import engine
+from app import models  # noqa: F401  (ensure models are registered on Base)
+from app.database import Base, engine
+from app.routers import projects
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="RGAA Tracker API")
 
@@ -13,6 +17,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(projects.router)
 
 
 @app.get("/")
