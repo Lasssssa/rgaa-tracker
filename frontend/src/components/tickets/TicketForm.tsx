@@ -1,29 +1,25 @@
 import { useEffect, useState } from 'react'
-import type { Project, ProjectInput } from '../api'
+import type { Ticket, TicketInput } from '../../types'
 
-interface ProjectFormProps {
-  initial?: Project | null
+interface TicketFormProps {
+  initial?: Ticket | null
   onCancel: () => void
-  onSubmit: (data: ProjectInput) => Promise<void>
+  onSubmit: (data: TicketInput) => Promise<void>
 }
 
-export default function ProjectForm({
+export default function TicketForm({
   initial,
   onCancel,
   onSubmit,
-}: ProjectFormProps) {
+}: TicketFormProps) {
   const [name, setName] = useState('')
-  const [client, setClient] = useState('')
-  const [auditDate, setAuditDate] = useState('')
-  const [gitlabProjectId, setGitlabProjectId] = useState('')
+  const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     setName(initial?.name ?? '')
-    setClient(initial?.client ?? '')
-    setAuditDate(initial?.audit_date ?? '')
-    setGitlabProjectId(initial?.gitlab_project_id ?? '')
+    setDescription(initial?.description ?? '')
   }, [initial])
 
   async function handleSubmit(event: React.FormEvent) {
@@ -33,9 +29,7 @@ export default function ProjectForm({
     try {
       await onSubmit({
         name: name.trim(),
-        client: client.trim() || null,
-        audit_date: auditDate || null,
-        gitlab_project_id: gitlabProjectId.trim() || null,
+        description: description.trim() || null,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue')
@@ -46,7 +40,7 @@ export default function ProjectForm({
 
   return (
     <form className="project-form" onSubmit={handleSubmit}>
-      <h2>{initial ? 'Modifier le projet' : 'Nouveau projet'}</h2>
+      <h2>{initial ? 'Modifier le ticket' : 'Nouveau ticket'}</h2>
 
       <label>
         Nom <span aria-hidden="true">*</span>
@@ -55,36 +49,17 @@ export default function ProjectForm({
           value={name}
           required
           onChange={(e) => setName(e.target.value)}
-          placeholder="Site institutionnel"
+          placeholder="Contraste insuffisant"
         />
       </label>
 
       <label>
-        Client
-        <input
-          type="text"
-          value={client}
-          onChange={(e) => setClient(e.target.value)}
-          placeholder="Ministère X"
-        />
-      </label>
-
-      <label>
-        Date d'audit
-        <input
-          type="date"
-          value={auditDate}
-          onChange={(e) => setAuditDate(e.target.value)}
-        />
-      </label>
-
-      <label>
-        ID projet GitLab
-        <input
-          type="text"
-          value={gitlabProjectId}
-          onChange={(e) => setGitlabProjectId(e.target.value)}
-          placeholder="Optionnel"
+        Description
+        <textarea
+          value={description}
+          rows={4}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Détail du problème et de la correction attendue"
         />
       </label>
 

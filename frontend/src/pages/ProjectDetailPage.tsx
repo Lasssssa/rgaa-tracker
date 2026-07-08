@@ -1,59 +1,12 @@
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { projectsApi, type Project } from '../api'
-import TicketsSection from './TicketsSection'
+import TicketsSection from '../components/tickets/TicketsSection'
+import { useProject } from '../hooks/useProject'
+import { formatDate, formatDateTime, formatRate } from '../lib/format'
 import './ProjectDetailPage.css'
-
-function formatDate(value: string | null): string {
-  if (!value) return '—'
-  const parsed = new Date(value)
-  if (Number.isNaN(parsed.getTime())) return value
-  return parsed.toLocaleDateString('fr-FR')
-}
-
-function formatDateTime(value: string): string {
-  const parsed = new Date(value)
-  if (Number.isNaN(parsed.getTime())) return value
-  return parsed.toLocaleString('fr-FR')
-}
-
-function formatRate(value: number | null): string {
-  return value == null ? '—' : `${Math.round(value)} %`
-}
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const [project, setProject] = useState<Project | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    const projectId = Number(id)
-    if (!Number.isInteger(projectId)) {
-      setError('Identifiant de projet invalide')
-      setLoading(false)
-      return
-    }
-    let active = true
-    setLoading(true)
-    setError(null)
-    projectsApi
-      .get(projectId)
-      .then((data) => {
-        if (active) setProject(data)
-      })
-      .catch((err) => {
-        if (active) {
-          setError(err instanceof Error ? err.message : 'Chargement impossible')
-        }
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
-    return () => {
-      active = false
-    }
-  }, [id])
+  const { project, loading, error } = useProject(id)
 
   return (
     <main className="project-detail">

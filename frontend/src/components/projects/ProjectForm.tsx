@@ -1,25 +1,29 @@
 import { useEffect, useState } from 'react'
-import type { Ticket, TicketInput } from '../api'
+import type { Project, ProjectInput } from '../../types'
 
-interface TicketFormProps {
-  initial?: Ticket | null
+interface ProjectFormProps {
+  initial?: Project | null
   onCancel: () => void
-  onSubmit: (data: TicketInput) => Promise<void>
+  onSubmit: (data: ProjectInput) => Promise<void>
 }
 
-export default function TicketForm({
+export default function ProjectForm({
   initial,
   onCancel,
   onSubmit,
-}: TicketFormProps) {
+}: ProjectFormProps) {
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
+  const [client, setClient] = useState('')
+  const [auditDate, setAuditDate] = useState('')
+  const [gitlabProjectId, setGitlabProjectId] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     setName(initial?.name ?? '')
-    setDescription(initial?.description ?? '')
+    setClient(initial?.client ?? '')
+    setAuditDate(initial?.audit_date ?? '')
+    setGitlabProjectId(initial?.gitlab_project_id ?? '')
   }, [initial])
 
   async function handleSubmit(event: React.FormEvent) {
@@ -29,7 +33,9 @@ export default function TicketForm({
     try {
       await onSubmit({
         name: name.trim(),
-        description: description.trim() || null,
+        client: client.trim() || null,
+        audit_date: auditDate || null,
+        gitlab_project_id: gitlabProjectId.trim() || null,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue')
@@ -40,7 +46,7 @@ export default function TicketForm({
 
   return (
     <form className="project-form" onSubmit={handleSubmit}>
-      <h2>{initial ? 'Modifier le ticket' : 'Nouveau ticket'}</h2>
+      <h2>{initial ? 'Modifier le projet' : 'Nouveau projet'}</h2>
 
       <label>
         Nom <span aria-hidden="true">*</span>
@@ -49,17 +55,36 @@ export default function TicketForm({
           value={name}
           required
           onChange={(e) => setName(e.target.value)}
-          placeholder="Contraste insuffisant"
+          placeholder="Site institutionnel"
         />
       </label>
 
       <label>
-        Description
-        <textarea
-          value={description}
-          rows={4}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Détail du problème et de la correction attendue"
+        Client
+        <input
+          type="text"
+          value={client}
+          onChange={(e) => setClient(e.target.value)}
+          placeholder="Ministère X"
+        />
+      </label>
+
+      <label>
+        Date d'audit
+        <input
+          type="date"
+          value={auditDate}
+          onChange={(e) => setAuditDate(e.target.value)}
+        />
+      </label>
+
+      <label>
+        ID projet GitLab
+        <input
+          type="text"
+          value={gitlabProjectId}
+          onChange={(e) => setGitlabProjectId(e.target.value)}
+          placeholder="Optionnel"
         />
       </label>
 
