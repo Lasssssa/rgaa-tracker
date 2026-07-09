@@ -6,6 +6,8 @@ from sqlalchemy import text
 # Import the models so their tables are registered on Base before create_all.
 from app.core.database import Base, engine
 from app.core.exceptions import EntityNotFoundError
+from app.modules.criteria import models as _criteria_models  # noqa: F401
+from app.modules.criteria.router import router as criteria_router
 from app.modules.projects import models as _projects_models  # noqa: F401
 from app.modules.projects.router import router as projects_router
 from app.modules.tickets import models as _tickets_models  # noqa: F401
@@ -33,6 +35,7 @@ def handle_entity_not_found(_: Request, exc: EntityNotFoundError) -> JSONRespons
     )
 
 
+app.include_router(criteria_router)
 app.include_router(projects_router)
 app.include_router(tickets_router)
 

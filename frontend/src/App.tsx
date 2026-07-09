@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import ChatPage from './pages/ChatPage'
+import CriteriasPage from './pages/CriteriasPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Navigate to="/projects" replace />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
+        <Route path="/criterias" element={<CriteriasPage />} />
         <Route path="/chat" element={<ChatPage />} />
       </Route>
     </Routes>
