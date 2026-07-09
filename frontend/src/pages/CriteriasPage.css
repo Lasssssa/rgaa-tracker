@@ -2,10 +2,11 @@
   max-width: 860px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
+  scroll-behavior: smooth;
 }
 
 .criterias-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .criterias-header h1 {
@@ -18,8 +19,58 @@
   color: var(--muted);
 }
 
+/* Sticky thematic navigation */
+.thematic-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.75rem 0;
+  margin-bottom: 1.5rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.thematic-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem 0.3rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.thematic-nav-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.thematic-nav-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* Thematic sections */
 .thematic-section {
   margin-bottom: 2rem;
+  /* keep anchored headings visible below the sticky nav (it can wrap
+     over three rows on a standard desktop width) */
+  scroll-margin-top: 10rem;
 }
 
 .thematic-section h2 {
@@ -50,6 +101,7 @@
   font-weight: 400;
 }
 
+/* Criteria */
 .criteria-list {
   list-style: none;
   margin: 0;
@@ -60,9 +112,6 @@
 }
 
 .criterion-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.85rem;
   padding: 0.7rem 1rem;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
@@ -71,6 +120,12 @@
 
 .criterion-row:last-child {
   border-bottom: none;
+}
+
+.criterion-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
 }
 
 .criterion-code {
@@ -97,4 +152,86 @@
 .criterion-doc:hover {
   color: var(--accent);
   text-decoration: underline;
+}
+
+/* Methodology */
+.criterion-methodology {
+  margin: 0.5rem 0 0.25rem 3.85rem;
+}
+
+.criterion-methodology summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.criterion-methodology summary:hover {
+  color: var(--accent);
+}
+
+.criterion-methodology[open] summary {
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.methodology-count {
+  padding: 0.05rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.methodology-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.methodology-test {
+  padding: 0.75rem 1rem;
+  background: var(--surface-alt);
+  border-radius: 10px;
+}
+
+.methodology-test h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.methodology-content {
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.methodology-content ol,
+.methodology-content ul {
+  margin: 0.25rem 0;
+  padding-left: 1.4rem;
+}
+
+.methodology-content li {
+  margin: 0.2rem 0;
+}
+
+.methodology-content p {
+  margin: 0.25rem 0;
+}
+
+.methodology-content code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.82em;
+}
+
+@media (max-width: 560px) {
+  .criterion-methodology {
+    margin-left: 0;
+  }
 }

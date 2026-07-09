@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import JSON, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.core.database import Base
@@ -41,5 +41,8 @@ class Criterion(Base):
     code: Mapped[str] = mapped_column(String(10), unique=True, nullable=False)
     title: Mapped[str] = mapped_column(Text, nullable=False)
     url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    # Test methodologies from the official referential, as a list of
+    # {"test": "1.1.1", "content": "<markdown>"} entries.
+    methodology: Mapped[list | None] = mapped_column(JSON, nullable=True)
 
     thematic: Mapped["Thematic"] = relationship(back_populates="criteria")

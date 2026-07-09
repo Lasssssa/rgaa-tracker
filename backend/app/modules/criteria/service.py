@@ -46,12 +46,14 @@ class CriteriaService:
                         code=criterion_data["code"],
                         title=criterion_data["title"],
                         url=criterion_data.get("url"),
+                        methodology=criterion_data.get("methodology"),
                     )
                     self.repository.add(criterion)
                     created += 1
                 else:
                     criterion.title = criterion_data["title"]
                     criterion.url = criterion_data.get("url")
+                    criterion.methodology = criterion_data.get("methodology")
                     updated += 1
 
         self.repository.commit()

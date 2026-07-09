@@ -1,6 +1,11 @@
 from pydantic import BaseModel, ConfigDict
 
 
+class MethodologyTest(BaseModel):
+    test: str
+    content: str
+
+
 class CriterionRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -10,6 +15,7 @@ class CriterionRead(BaseModel):
     code: str
     title: str
     url: str | None
+    methodology: list[MethodologyTest] | None
 
 
 class ThematicRead(BaseModel):

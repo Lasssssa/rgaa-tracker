@@ -1,3 +1,5 @@
+import CriterionRow from '../components/criteria/CriterionRow'
+import ThematicNav from '../components/criteria/ThematicNav'
 import { useThematics } from '../hooks/useThematics'
 import './CriteriasPage.css'
 
@@ -30,36 +32,30 @@ export default function CriteriasPage() {
           <code>python -m app.commands.import_criteria</code>
         </p>
       ) : (
-        thematics.map((thematic) => (
-          <section key={thematic.id} className="thematic-section">
-            <h2>
-              <span className="thematic-number">{thematic.number}</span>
-              {thematic.name}
-              <span className="thematic-count">
-                {thematic.criteria.length} critères
-              </span>
-            </h2>
-            <ul className="criteria-list">
-              {thematic.criteria.map((criterion) => (
-                <li key={criterion.id} className="criterion-row">
-                  <span className="criterion-code">{criterion.code}</span>
-                  <span className="criterion-title">{criterion.title}</span>
-                  {criterion.url && (
-                    <a
-                      href={criterion.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="criterion-doc"
-                      aria-label={`Documentation du critère ${criterion.code}`}
-                    >
-                      Doc ↗
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
+        <>
+          <ThematicNav thematics={thematics} />
+
+          {thematics.map((thematic) => (
+            <section
+              key={thematic.id}
+              id={`thematic-${thematic.number}`}
+              className="thematic-section"
+            >
+              <h2>
+                <span className="thematic-number">{thematic.number}</span>
+                {thematic.name}
+                <span className="thematic-count">
+                  {thematic.criteria.length} critères
+                </span>
+              </h2>
+              <ul className="criteria-list">
+                {thematic.criteria.map((criterion) => (
+                  <CriterionRow key={criterion.id} criterion={criterion} />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </>
       )}
     </main>
   )
