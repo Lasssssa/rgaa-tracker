@@ -13,6 +13,12 @@
   background: var(--surface);
   border-right: 1px solid var(--border);
   transition: width 0.2s ease;
+  /* Pin to the viewport: the sidebar never scrolls with the page, and the
+     collapse toggle stays visible at the bottom. */
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow-y: auto;
 }
 
 .sidebar.collapsed {
@@ -140,6 +146,9 @@
     padding: 0.75rem 1rem;
     border-right: none;
     border-bottom: 1px solid var(--border);
+    position: static;
+    height: auto;
+    overflow-y: visible;
   }
 
   .sidebar.collapsed .sidebar-text {
