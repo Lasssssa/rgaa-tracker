@@ -38,5 +38,5 @@ export function useProject(id: string | undefined) {
     }
   }, [id])
 
-  return { project, loading, error }
+  return { project, setProject, loading, error }
 }

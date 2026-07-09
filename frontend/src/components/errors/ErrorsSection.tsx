@@ -97,10 +97,11 @@ function groupErrors(errors: ProjectError[], groupBy: GroupBy): ErrorGroup[] {
 }
 
 interface ErrorsSectionProps {
-  projectId: number
+  /** Errors state owned by the page, so it can derive stats from it. */
+  state: ReturnType<typeof useErrors>
 }
 
-export default function ErrorsSection({ projectId }: ErrorsSectionProps) {
+export default function ErrorsSection({ state }: ErrorsSectionProps) {
   const {
     errors,
     loading,
@@ -110,7 +111,7 @@ export default function ErrorsSection({ projectId }: ErrorsSectionProps) {
     updateError,
     toggleError,
     removeError,
-  } = useErrors(projectId)
+  } = state
   const [dialog, setDialog] = useState<Dialog>({ mode: 'closed' })
   const [groupBy, setGroupBy] = useState<GroupBy>('thematic')
 
