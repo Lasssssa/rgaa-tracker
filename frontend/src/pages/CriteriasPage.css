@@ -1,12 +1,17 @@
 .criterias-page {
-  max-width: 860px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
   scroll-behavior: smooth;
 }
 
 .criterias-header {
-  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
 }
 
 .criterias-header h1 {
@@ -19,58 +24,137 @@
   color: var(--muted);
 }
 
-/* Sticky thematic navigation */
-.thematic-nav {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  padding: 0.75rem 0;
-  margin-bottom: 1.5rem;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+/* Search */
+.criterias-search {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+  max-width: 380px;
 }
 
-.thematic-nav-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.7rem 0.3rem 0.35rem;
+.criterias-search input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 10px;
+  font-size: 0.95rem;
   background: var(--surface);
   color: var(--text);
-  text-decoration: none;
-  font-size: 0.82rem;
-  white-space: nowrap;
 }
 
-.thematic-nav-pill:hover {
+.criterias-search input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
   border-color: var(--accent);
-  color: var(--accent);
 }
 
-.thematic-nav-number {
+.search-count {
+  position: absolute;
+  top: 100%;
+  left: 0.2rem;
+  margin: 0.3rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Two-column layout: sticky TOC + content */
+.criterias-layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.thematic-toc {
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100svh - 3rem);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.thematic-toc-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.thematic-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-link {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border-left: 2px solid transparent;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.toc-link:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.toc-link.active {
+  background: var(--surface-alt);
+  border-left-color: var(--accent);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.toc-number {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1.35rem;
-  height: 1.35rem;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #fff;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 6px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.toc-link.active .toc-number {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.toc-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-count {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* Thematic sections */
 .thematic-section {
-  margin-bottom: 2rem;
-  /* keep anchored headings visible below the sticky nav (it can wrap
-     over three rows on a standard desktop width) */
-  scroll-margin-top: 10rem;
+  margin-bottom: 2.25rem;
+  scroll-margin-top: 1.5rem;
 }
 
 .thematic-section h2 {
@@ -230,7 +314,40 @@
   font-size: 0.82em;
 }
 
-@media (max-width: 560px) {
+/* Responsive */
+@media (max-width: 760px) {
+  .criterias-layout {
+    display: block;
+  }
+
+  .thematic-toc {
+    position: static;
+    max-height: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .thematic-toc ul {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .toc-link {
+    border-left: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .toc-link.active {
+    border-color: var(--accent);
+  }
+
+  .toc-count {
+    display: none;
+  }
+
   .criterion-methodology {
     margin-left: 0;
   }
