@@ -98,6 +98,50 @@
   color: var(--muted);
 }
 
+.error-group-head {
+  margin-bottom: 0.5rem;
+}
+
+.error-group-head .error-group-title {
+  margin-bottom: 0;
+}
+
+.group-info-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-style: italic;
+  font-family: Georgia, serif;
+  cursor: pointer;
+}
+
+.group-info-toggle:hover,
+.group-info-toggle[aria-expanded='true'] {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.group-info-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.error-group-desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .errors-list {
   list-style: none;
   margin: 0;

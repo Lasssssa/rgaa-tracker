@@ -36,6 +36,8 @@ function initialGroupBy(): GroupBy {
 interface ErrorGroup {
   key: string
   label: string
+  /** Full criterion title, revealed on demand (too long for the header). */
+  description?: string
   errors: ProjectError[]
 }
 
@@ -68,6 +70,7 @@ function groupErrors(errors: ProjectError[], groupBy: GroupBy): ErrorGroup[] {
     const criterion = error.criterion
     let key: string
     let label: string
+    let description: string | undefined
     let order: number[]
     if (criterion == null) {
       key = 'none'
@@ -79,14 +82,15 @@ function groupErrors(errors: ProjectError[], groupBy: GroupBy): ErrorGroup[] {
       order = [criterion.thematic.number]
     } else {
       key = `criterion-${criterion.id}`
-      label = `${criterion.code} — ${criterion.title}`
+      label = `Critère ${criterion.code}`
+      description = criterion.title
       order = criterion.code.split('.').map(Number)
     }
     const group = groups.get(key)
     if (group) {
       group.errors.push(error)
     } else {
-      groups.set(key, { key, label, errors: [error], order })
+      groups.set(key, { key, label, description, errors: [error], order })
     }
   }
 
@@ -98,11 +102,50 @@ function groupErrors(errors: ProjectError[], groupBy: GroupBy): ErrorGroup[] {
       }
       return 0
     })
-    .map(({ key, label, errors: groupErrors }) => ({
+    .map(({ key, label, description, errors: groupErrors }) => ({
       key,
       label,
+      description,
       errors: groupErrors,
     }))
+}
+
+interface GroupHeaderProps {
+  label: string
+  description?: string
+  count: number
+}
+
+function GroupHeader({ label, description, count }: GroupHeaderProps) {
+  const [showDescription, setShowDescription] = useState(false)
+
+  return (
+    <div className="error-group-head">
+      <h3 className="error-group-title">
+        {label}
+        <span className="error-group-count">{count}</span>
+        {description && (
+          <button
+            type="button"
+            className="group-info-toggle"
+            onClick={() => setShowDescription((value) => !value)}
+            aria-expanded={showDescription}
+            aria-label={
+              showDescription
+                ? 'Masquer l’intitulé du critère'
+                : 'Afficher l’intitulé du critère'
+            }
+            title={showDescription ? undefined : description}
+          >
+            i
+          </button>
+        )}
+      </h3>
+      {description && showDescription && (
+        <p className="error-group-desc">{description}</p>
+      )}
+    </div>
+  )
 }
 
 interface ErrorsSectionProps {
@@ -203,12 +246,11 @@ export default function ErrorsSection({ state }: ErrorsSectionProps) {
         groups.map((group) => (
           <div key={group.key} className="error-group">
             {group.label && (
-              <h3 className="error-group-title">
-                {group.label}
-                <span className="error-group-count">
-                  {group.errors.length}
-                </span>
-              </h3>
+              <GroupHeader
+                label={group.label}
+                description={group.description}
+                count={group.errors.length}
+              />
             )}
             <ErrorList
               errors={group.errors}
