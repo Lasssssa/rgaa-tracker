@@ -20,6 +20,55 @@
   font-weight: 400;
 }
 
+.tickets-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.group-by {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.group-by select {
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+
+/* Groups */
+.ticket-group {
+  margin-bottom: 1.5rem;
+}
+
+.ticket-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ticket-group-count {
+  padding: 0.02rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
 .tickets-list {
   list-style: none;
   margin: 0;
@@ -86,9 +135,105 @@
   font-size: 1.3rem;
 }
 
+.ticket-view-criterion {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .ticket-view-desc {
   margin: 0;
   white-space: pre-wrap;
   color: var(--text);
   line-height: 1.55;
+}
+
+/* Criterion picker (combobox) */
+.criterion-picker {
+  position: relative;
+}
+
+.criterion-picker input {
+  width: 100%;
+}
+
+.criterion-picker-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 260px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.criterion-picker-list li > button {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.criterion-picker-list li > button:hover {
+  background: var(--surface-alt);
+}
+
+.picker-title {
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.35;
+}
+
+.picker-thematic {
+  flex-shrink: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.criterion-picker-empty {
+  padding: 0.6rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Selected criterion */
+.criterion-selected {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-alt);
+  font-size: 0.88rem;
+}
+
+.criterion-selected-title {
+  flex: 1;
+  line-height: 1.4;
 }

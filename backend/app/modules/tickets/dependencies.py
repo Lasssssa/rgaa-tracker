@@ -2,6 +2,8 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
+from app.modules.criteria.dependencies import get_criteria_repository
+from app.modules.criteria.repository import CriteriaRepository
 from app.modules.projects.dependencies import get_project_repository
 from app.modules.projects.repository import ProjectRepository
 from app.modules.tickets.repository import TicketRepository
@@ -15,5 +17,6 @@ def get_ticket_repository(db: Session = Depends(get_db)) -> TicketRepository:
 def get_ticket_service(
     repository: TicketRepository = Depends(get_ticket_repository),
     project_repository: ProjectRepository = Depends(get_project_repository),
+    criteria_repository: CriteriaRepository = Depends(get_criteria_repository),
 ) -> TicketService:
-    return TicketService(repository, project_repository)
+    return TicketService(repository, project_repository, criteria_repository)

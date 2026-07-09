@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import type { Ticket, TicketInput } from '../../types'
+import { useCriteriaList } from '../../hooks/useCriteriaList'
+import { SEVERITIES } from '../../lib/severity'
+import type { Severity, Ticket, TicketInput } from '../../types'
+import CriterionPicker from './CriterionPicker'
 
 interface TicketFormProps {
   initial?: Ticket | null
@@ -12,24 +15,35 @@ export default function TicketForm({
   onCancel,
   onSubmit,
 }: TicketFormProps) {
+  const { criteria, loading: criteriaLoading } = useCriteriaList()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const [criterionId, setCriterionId] = useState<number | null>(null)
+  const [severity, setSeverity] = useState<Severity>('moderate')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     setName(initial?.name ?? '')
     setDescription(initial?.description ?? '')
+    setCriterionId(initial?.criterion?.id ?? null)
+    setSeverity(initial?.severity ?? 'moderate')
   }, [initial])
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
+    if (criterionId == null) {
+      setError('Sélectionnez le critère RGAA concerné.')
+      return
+    }
     setSubmitting(true)
     setError(null)
     try {
       await onSubmit({
         name: name.trim(),
         description: description.trim() || null,
+        criterion_id: criterionId,
+        severity,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue')
@@ -51,6 +65,35 @@ export default function TicketForm({
           onChange={(e) => setName(e.target.value)}
           placeholder="Contraste insuffisant"
         />
+      </label>
+
+      <div className="form-field">
+        <span className="form-label">
+          Critère RGAA <span aria-hidden="true">*</span>
+        </span>
+        {criteriaLoading ? (
+          <p className="form-hint">Chargement des critères…</p>
+        ) : (
+          <CriterionPicker
+            criteria={criteria}
+            value={criterionId}
+            onChange={setCriterionId}
+          />
+        )}
+      </div>
+
+      <label>
+        Sévérité <span aria-hidden="true">*</span>
+        <select
+          value={severity}
+          onChange={(e) => setSeverity(e.target.value as Severity)}
+        >
+          {SEVERITIES.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label>

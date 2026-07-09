@@ -3,7 +3,7 @@ import CriterionRow from '../components/criteria/CriterionRow'
 import ThematicToc from '../components/criteria/ThematicToc'
 import { useScrollSpy } from '../hooks/useScrollSpy'
 import { useThematics } from '../hooks/useThematics'
-import { fuzzyIncludes } from '../lib/text'
+import { matchesWords } from '../lib/text'
 import './CriteriasPage.css'
 
 export default function CriteriasPage() {
@@ -16,11 +16,11 @@ export default function CriteriasPage() {
     return thematics
       .map((thematic) => ({
         ...thematic,
-        criteria: thematic.criteria.filter(
-          (criterion) =>
-            fuzzyIncludes(criterion.code, q) ||
-            fuzzyIncludes(criterion.title, q) ||
-            fuzzyIncludes(thematic.name, q),
+        criteria: thematic.criteria.filter((criterion) =>
+          matchesWords(
+            `${criterion.code} ${criterion.title} ${thematic.name}`,
+            q,
+          ),
         ),
       }))
       .filter((thematic) => thematic.criteria.length > 0)

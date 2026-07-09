@@ -85,6 +85,41 @@
   color: #15803d;
 }
 
+.badge.severity-minor {
+  background: rgba(100, 116, 139, 0.15);
+  color: #64748b;
+}
+
+.badge.severity-moderate {
+  background: rgba(234, 179, 8, 0.15);
+  color: #b45309;
+}
+
+.badge.severity-major {
+  background: rgba(249, 115, 22, 0.18);
+  color: #ea580c;
+}
+
+.badge.severity-critical {
+  background: rgba(220, 38, 38, 0.15);
+  color: #dc2626;
+}
+
+/* Small accent chip for criterion codes */
+.criterion-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 /* Modal */
 .modal-overlay {
   position: fixed;
@@ -122,7 +157,8 @@
 }
 
 .project-form input,
-.project-form textarea {
+.project-form textarea,
+.project-form select {
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -134,10 +170,30 @@
 }
 
 .project-form input:focus,
-.project-form textarea:focus {
+.project-form textarea:focus,
+.project-form select:focus {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
   border-color: var(--accent);
+}
+
+/* Non-label form field (widget manages its own inputs) */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 .form-actions {

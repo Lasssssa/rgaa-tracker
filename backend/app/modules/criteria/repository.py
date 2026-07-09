@@ -24,12 +24,16 @@ class CriteriaRepository:
             self.db.scalars(
                 select(Criterion)
                 .join(Criterion.thematic)
+                .options(selectinload(Criterion.thematic))
                 .order_by(Thematic.number, Criterion.number)
             )
         )
 
     def get_thematic_by_number(self, number: int) -> Thematic | None:
         return self.db.scalar(select(Thematic).where(Thematic.number == number))
+
+    def get_criterion(self, criterion_id: int) -> Criterion | None:
+        return self.db.get(Criterion, criterion_id)
 
     def get_criterion_by_code(self, code: str) -> Criterion | None:
         return self.db.scalar(select(Criterion).where(Criterion.code == code))

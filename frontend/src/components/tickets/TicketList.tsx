@@ -1,4 +1,5 @@
 import type { Ticket } from '../../types'
+import SeverityBadge from '../ui/SeverityBadge'
 import StatusBadge from '../ui/StatusBadge'
 
 interface TicketListProps {
@@ -21,6 +22,14 @@ export default function TicketList({
       {tickets.map((ticket) => (
         <li key={ticket.id} className="ticket-row">
           <div className="ticket-main">
+            {ticket.criterion && (
+              <span
+                className="criterion-chip"
+                title={ticket.criterion.title}
+              >
+                {ticket.criterion.code}
+              </span>
+            )}
             <button
               type="button"
               className="ticket-name"
@@ -28,6 +37,7 @@ export default function TicketList({
             >
               {ticket.name}
             </button>
+            <SeverityBadge severity={ticket.severity} />
             <StatusBadge patched={ticket.is_patched} />
           </div>
           <div className="ticket-actions">

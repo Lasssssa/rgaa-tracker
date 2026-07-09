@@ -25,3 +25,21 @@ class ThematicRead(BaseModel):
     number: int
     name: str
     criteria: list[CriterionRead]
+
+
+class ThematicBrief(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    number: int
+    name: str
+
+
+class CriterionListItem(BaseModel):
+    """Lightweight criterion for pickers and lists: no methodology payload."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    code: str
+    title: str
+    thematic: ThematicBrief

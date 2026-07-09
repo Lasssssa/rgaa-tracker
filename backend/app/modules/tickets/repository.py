@@ -1,6 +1,7 @@
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
+from app.modules.criteria.models import Criterion
 from app.modules.tickets.models import Ticket
 
 
@@ -15,6 +16,11 @@ class TicketRepository:
             self.db.scalars(
                 select(Ticket)
                 .where(Ticket.project_id == project_id)
+                .options(
+                    selectinload(Ticket.criterion).selectinload(
+                        Criterion.thematic
+                    )
+                )
                 .order_by(Ticket.created_at.desc())
             )
         )

@@ -19,3 +19,14 @@ export interface Thematic {
   name: string
   criteria: Criterion[]
 }
+
+/** Lightweight criterion returned by GET /criteria (no methodology). */
+export interface CriterionListItem {
+  id: number
+  code: string
+  title: string
+  thematic: {
+    number: number
+    name: string
+  }
+}
