@@ -1,6 +1,6 @@
-import ChatInput from '../components/chat/ChatInput'
-import ChatMessages from '../components/chat/ChatMessages'
-import { useChat } from '../hooks/useChat'
+import ChatInput from '../../components/chat/ChatInput'
+import ChatMessages from '../../components/chat/ChatMessages'
+import { useChat } from '../../hooks/useChat'
 import './ChatPage.css'
 
 export default function ChatPage() {

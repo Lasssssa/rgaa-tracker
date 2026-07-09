@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import CriterionRow from '../components/criteria/CriterionRow'
-import ThematicToc from '../components/criteria/ThematicToc'
-import { useScrollSpy } from '../hooks/useScrollSpy'
-import { useThematics } from '../hooks/useThematics'
-import { matchesWords } from '../lib/text'
+import CriterionRow from '../../components/criteria/CriterionRow'
+import ThematicToc from '../../components/criteria/ThematicToc'
+import { useScrollSpy } from '../../hooks/useScrollSpy'
+import { useThematics } from '../../hooks/useThematics'
+import { matchesWords } from '../../lib/text'
 import './CriteriasPage.css'
 
 export default function CriteriasPage() {

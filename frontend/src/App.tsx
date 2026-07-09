@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
-import ChatPage from './pages/ChatPage'
 import CriteriasPage from './pages/CriteriasPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import ChatPage from './pages/ChatPage';
 
 function App() {
   return (

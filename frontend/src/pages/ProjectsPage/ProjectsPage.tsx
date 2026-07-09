@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import ProjectForm from '../components/projects/ProjectForm'
-import ProjectsTable from '../components/projects/ProjectsTable'
-import Modal from '../components/ui/Modal'
-import { useProjects } from '../hooks/useProjects'
-import type { Project, ProjectInput } from '../types'
+import ProjectForm from '../../components/projects/ProjectForm'
+import ProjectsTable from '../../components/projects/ProjectsTable'
+import Modal from '../../components/ui/Modal'
+import { useProjects } from '../../hooks/useProjects'
+import type { Project, ProjectInput } from '../../types'
 import './ProjectsPage.css'
 
 type Dialog =
