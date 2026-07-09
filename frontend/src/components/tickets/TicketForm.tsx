@@ -56,16 +56,32 @@ export default function TicketForm({
     <form className="project-form" onSubmit={handleSubmit}>
       <h2>{initial ? 'Modifier le ticket' : 'Nouveau ticket'}</h2>
 
-      <label>
-        Nom <span aria-hidden="true">*</span>
-        <input
-          type="text"
-          value={name}
-          required
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Contraste insuffisant"
-        />
-      </label>
+      <div className="form-row">
+        <label>
+          Nom <span aria-hidden="true">*</span>
+          <input
+            type="text"
+            value={name}
+            required
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Contraste insuffisant"
+          />
+        </label>
+
+        <label>
+          Sévérité <span aria-hidden="true">*</span>
+          <select
+            value={severity}
+            onChange={(e) => setSeverity(e.target.value as Severity)}
+          >
+            {SEVERITIES.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
       <div className="form-field">
         <span className="form-label">
@@ -83,24 +99,10 @@ export default function TicketForm({
       </div>
 
       <label>
-        Sévérité <span aria-hidden="true">*</span>
-        <select
-          value={severity}
-          onChange={(e) => setSeverity(e.target.value as Severity)}
-        >
-          {SEVERITIES.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label>
         Description
         <textarea
           value={description}
-          rows={4}
+          rows={6}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Détail du problème et de la correction attendue"
         />

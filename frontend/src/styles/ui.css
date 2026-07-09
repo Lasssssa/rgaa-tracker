@@ -20,12 +20,12 @@
 /* Buttons */
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   border: none;
   border-radius: 8px;
   padding: 0.6rem 1rem;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -39,8 +39,8 @@
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--text);
+  background: var(--surface);
+  color: var(--ink);
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 0.6rem 1rem;
@@ -48,12 +48,17 @@
   cursor: pointer;
 }
 
+.btn-secondary:hover {
+  background: var(--surface-alt);
+}
+
 .btn-link {
   background: none;
   border: none;
-  color: var(--accent);
+  color: var(--accent-text);
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 500;
   padding: 0.2rem 0.4rem;
 }
 
@@ -76,36 +81,36 @@
 }
 
 .badge.todo {
-  background: rgba(234, 179, 8, 0.15);
-  color: #b45309;
+  background: rgba(234, 179, 8, 0.16);
+  color: #92610a;
 }
 
 .badge.patched {
-  background: rgba(34, 197, 94, 0.15);
-  color: #15803d;
+  background: var(--accent-soft);
+  color: var(--accent-text);
 }
 
 .badge.severity-minor {
-  background: rgba(100, 116, 139, 0.15);
-  color: #64748b;
+  background: rgba(100, 116, 139, 0.14);
+  color: #52616e;
 }
 
 .badge.severity-moderate {
-  background: rgba(234, 179, 8, 0.15);
-  color: #b45309;
+  background: rgba(234, 179, 8, 0.16);
+  color: #92610a;
 }
 
 .badge.severity-major {
-  background: rgba(249, 115, 22, 0.18);
-  color: #ea580c;
+  background: rgba(249, 115, 22, 0.16);
+  color: #c2410c;
 }
 
 .badge.severity-critical {
-  background: rgba(220, 38, 38, 0.15);
-  color: #dc2626;
+  background: rgba(220, 38, 38, 0.12);
+  color: #b91c1c;
 }
 
-/* Small accent chip for criterion codes */
+/* Small chip for criterion codes */
 .criterion-chip {
   display: inline-flex;
   align-items: center;
@@ -113,7 +118,7 @@
   padding: 0.1rem 0.5rem;
   border-radius: 6px;
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   font-size: 0.78rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -124,7 +129,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(28, 64, 73, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +143,13 @@
   padding: 1.75rem;
   width: 100%;
   max-width: 440px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  max-height: calc(100svh - 3rem);
+  overflow-y: auto;
+  box-shadow: 0 20px 50px rgba(28, 64, 73, 0.3);
+}
+
+.modal.modal-lg {
+  max-width: 640px;
 }
 
 /* Forms (project & ticket forms share .project-form) */
@@ -148,17 +159,19 @@
 }
 
 .project-form label {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  display: block;
   margin-bottom: 1rem;
   font-size: 0.9rem;
   font-weight: 500;
+  color: var(--ink);
 }
 
 .project-form input,
 .project-form textarea,
 .project-form select {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -188,12 +201,27 @@
 .form-label {
   font-size: 0.9rem;
   font-weight: 500;
+  color: var(--ink);
 }
 
 .form-hint {
   margin: 0;
   font-size: 0.85rem;
   color: var(--muted);
+}
+
+/* Side-by-side fields inside a form */
+.form-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0.85rem;
+  align-items: start;
+}
+
+@media (max-width: 560px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-actions {

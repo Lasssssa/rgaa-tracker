@@ -106,7 +106,7 @@
 
 .toc-link:hover {
   background: var(--surface-alt);
-  color: var(--text);
+  color: var(--ink);
 }
 
 .toc-link.active {
@@ -134,7 +134,7 @@
 .toc-link.active .toc-number {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--ink);
 }
 
 .toc-name {
@@ -173,7 +173,7 @@
   height: 1.8rem;
   border-radius: 8px;
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -216,7 +216,7 @@
   flex-shrink: 0;
   min-width: 3rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-text);
   font-variant-numeric: tabular-nums;
 }
 
@@ -234,7 +234,7 @@
 }
 
 .criterion-doc:hover {
-  color: var(--accent);
+  color: var(--accent-text);
   text-decoration: underline;
 }
 
@@ -254,11 +254,11 @@
 }
 
 .criterion-methodology summary:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .criterion-methodology[open] summary {
-  color: var(--accent);
+  color: var(--accent-text);
   margin-bottom: 0.5rem;
 }
 
@@ -284,7 +284,7 @@
 .methodology-test h4 {
   margin: 0 0 0.4rem;
   font-size: 0.85rem;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .methodology-content {

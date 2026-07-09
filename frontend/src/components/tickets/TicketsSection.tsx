@@ -202,7 +202,7 @@ export default function TicketsSection({ projectId }: TicketsSectionProps) {
       )}
 
       {(dialog.mode === 'create' || dialog.mode === 'edit') && (
-        <Modal onClose={() => setDialog({ mode: 'closed' })}>
+        <Modal size="lg" onClose={() => setDialog({ mode: 'closed' })}>
           <TicketForm
             initial={dialog.mode === 'edit' ? dialog.ticket : null}
             onCancel={() => setDialog({ mode: 'closed' })}
@@ -216,7 +216,7 @@ export default function TicketsSection({ projectId }: TicketsSectionProps) {
       )}
 
       {dialog.mode === 'view' && (
-        <Modal onClose={() => setDialog({ mode: 'closed' })}>
+        <Modal size="lg" onClose={() => setDialog({ mode: 'closed' })}>
           <div className="ticket-view">
             <div className="ticket-view-head">
               <h2>{dialog.ticket.name}</h2>

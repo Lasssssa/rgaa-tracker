@@ -1,36 +1,29 @@
 :root {
-  --text: #1f2430;
-  --muted: #6b7280;
-  --bg: #f7f7f9;
+  /* Brand palette */
+  --accent: #16cb9f; /* primary mint — backgrounds, highlights */
+  --accent-hover: #10b78d;
+  --accent-soft: rgba(22, 203, 159, 0.14);
+  --accent-text: #0a7d61; /* darkened mint — AA-readable on white */
+  --ink: #1c4049; /* dark teal — headings, sidebar, text on mint */
+
+  /* Neutrals (light theme) */
+  --text: #2b4a54;
+  --muted: #5f7a84;
+  --bg: #f4f8f7;
   --surface: #ffffff;
-  --surface-alt: #f4f4f7;
-  --border: #e5e4e7;
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
+  --surface-alt: #ecf3f1;
+  --border: #d9e5e1;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
 
   font: 16px/1.5 var(--sans);
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #e5e7eb;
-    --muted: #9ca3af;
-    --bg: #101014;
-    --surface: #1a1b22;
-    --surface-alt: #22242c;
-    --border: #2e303a;
-    --accent: #a78bfa;
-    --accent-hover: #8b5cf6;
-  }
 }
 
 * {
@@ -43,7 +36,8 @@ body {
 }
 
 h1,
-h2 {
-  color: var(--text);
+h2,
+h3 {
+  color: var(--ink);
   font-weight: 600;
 }
