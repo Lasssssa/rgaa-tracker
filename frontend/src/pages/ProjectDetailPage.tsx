@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import TicketsSection from '../components/tickets/TicketsSection'
+import ErrorsSection from '../components/errors/ErrorsSection'
 import { useProject } from '../hooks/useProject'
 import { formatDate, formatDateTime, formatRate } from '../lib/format'
 import './ProjectDetailPage.css'
@@ -52,7 +52,7 @@ export default function ProjectDetailPage() {
             </div>
           </dl>
 
-          <TicketsSection projectId={project.id} />
+          <ErrorsSection projectId={project.id} />
         </>
       ) : null}
     </main>

@@ -1,8 +1,8 @@
-.tickets-section {
+.errors-section {
   margin-top: 2.5rem;
 }
 
-.tickets-header {
+.errors-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,17 +10,17 @@
   margin-bottom: 1rem;
 }
 
-.tickets-header h2 {
+.errors-header h2 {
   margin: 0;
   font-size: 1.3rem;
 }
 
-.tickets-header .count {
+.errors-header .count {
   color: var(--muted);
   font-weight: 400;
 }
 
-.tickets-controls {
+.errors-controls {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -46,11 +46,11 @@
 }
 
 /* Groups */
-.ticket-group {
+.error-group {
   margin-bottom: 1.5rem;
 }
 
-.ticket-group-title {
+.error-group-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -60,7 +60,7 @@
   color: var(--text);
 }
 
-.ticket-group-count {
+.error-group-count {
   padding: 0.02rem 0.5rem;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -69,7 +69,7 @@
   color: var(--muted);
 }
 
-.tickets-list {
+.errors-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -78,7 +78,7 @@
   overflow: hidden;
 }
 
-.ticket-row {
+.error-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -89,18 +89,18 @@
   background: var(--surface);
 }
 
-.ticket-row:last-child {
+.error-row:last-child {
   border-bottom: none;
 }
 
-.ticket-main {
+.error-main {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   min-width: 0;
 }
 
-.ticket-name {
+.error-name {
   background: none;
   border: none;
   padding: 0;
@@ -111,31 +111,31 @@
   text-align: left;
 }
 
-.ticket-name:hover {
+.error-name:hover {
   color: var(--accent-text);
   text-decoration: underline;
 }
 
-.ticket-actions {
+.error-actions {
   display: flex;
   gap: 0.25rem;
   flex-wrap: wrap;
 }
 
 /* View modal */
-.ticket-view-head {
+.error-view-head {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
-.ticket-view-head h2 {
+.error-view-head h2 {
   margin: 0;
   font-size: 1.3rem;
 }
 
-.ticket-view-criterion {
+.error-view-criterion {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
@@ -145,7 +145,7 @@
   line-height: 1.45;
 }
 
-.ticket-view-desc {
+.error-view-desc {
   margin: 0;
   white-space: pre-wrap;
   color: var(--text);

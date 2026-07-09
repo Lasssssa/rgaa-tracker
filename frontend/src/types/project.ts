@@ -5,7 +5,7 @@ export interface Project {
   audit_date: string | null
   gitlab_project_id: string | null
   global_compliance_rate: number | null
-  ticket_count: number
+  error_count: number
   created_at: string
   updated_at: string
 }

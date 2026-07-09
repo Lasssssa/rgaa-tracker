@@ -22,7 +22,7 @@ export default function ProjectsTable({
             <th>Client</th>
             <th>Date d'audit</th>
             <th>Conformité</th>
-            <th>Tickets</th>
+            <th>Erreurs</th>
             <th>GitLab</th>
             <th className="actions-col">Actions</th>
           </tr>
@@ -40,7 +40,7 @@ export default function ProjectsTable({
               <td data-label="Conformité">
                 {formatRate(project.global_compliance_rate)}
               </td>
-              <td data-label="Tickets">{project.ticket_count}</td>
+              <td data-label="Erreurs">{project.error_count}</td>
               <td data-label="GitLab">{project.gitlab_project_id ?? '—'}</td>
               <td data-label="Actions" className="actions-col">
                 <button

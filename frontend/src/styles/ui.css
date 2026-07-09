@@ -152,7 +152,7 @@
   max-width: 640px;
 }
 
-/* Forms (project & ticket forms share .project-form) */
+/* Forms (project & error forms share .project-form) */
 .project-form h2 {
   margin: 0 0 1.25rem;
   font-size: 1.3rem;

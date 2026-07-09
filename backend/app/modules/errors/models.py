@@ -19,15 +19,15 @@ if TYPE_CHECKING:
     from app.modules.projects.models import Project
 
 
-class Ticket(Base):
-    __tablename__ = "tickets"
+class Error(Base):
+    __tablename__ = "errors"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     project_id: Mapped[int] = mapped_column(
         ForeignKey("projects.id", ondelete="CASCADE"), index=True, nullable=False
     )
-    # Nullable in the database so tickets created before the referential
-    # existed survive; required at the API level for new tickets.
+    # Nullable in the database so errors created before the referential
+    # existed survive; required at the API level for new errors.
     criterion_id: Mapped[int | None] = mapped_column(
         ForeignKey("criteria.id", ondelete="SET NULL"), index=True, nullable=True
     )
@@ -50,5 +50,5 @@ class Ticket(Base):
         nullable=False,
     )
 
-    project: Mapped["Project"] = relationship(back_populates="tickets")
+    project: Mapped["Project"] = relationship(back_populates="errors")
     criterion: Mapped["Criterion | None"] = relationship()

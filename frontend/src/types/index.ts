@@ -6,4 +6,4 @@ export type {
   Thematic,
 } from './criteria'
 export type { Project, ProjectInput } from './project'
-export type { Severity, Ticket, TicketCriterion, TicketInput } from './ticket'
+export type { Severity, ProjectError, ErrorCriterion, ErrorInput } from './error'

@@ -1,6 +1,6 @@
 export type Severity = 'minor' | 'moderate' | 'major' | 'critical'
 
-export interface TicketCriterion {
+export interface ErrorCriterion {
   id: number
   code: string
   title: string
@@ -10,19 +10,19 @@ export interface TicketCriterion {
   }
 }
 
-export interface Ticket {
+export interface ProjectError {
   id: number
   project_id: number
   name: string
   description: string | null
   severity: Severity
-  criterion: TicketCriterion | null
+  criterion: ErrorCriterion | null
   is_patched: boolean
   created_at: string
   updated_at: string
 }
 
-export interface TicketInput {
+export interface ErrorInput {
   name: string
   description?: string | null
   criterion_id: number

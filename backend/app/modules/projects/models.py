@@ -8,9 +8,9 @@ from app.core.database import Base
 
 if TYPE_CHECKING:
     # Import only for type checkers to avoid a runtime circular import between
-    # the projects and tickets modules. SQLAlchemy resolves the "Ticket" string
+    # the projects and errors modules. SQLAlchemy resolves the "Error" string
     # reference below at mapper-configuration time, so no real import is needed.
-    from app.modules.tickets.models import Ticket
+    from app.modules.errors.models import Error
 
 
 class Project(Base):
@@ -34,12 +34,12 @@ class Project(Base):
         nullable=False,
     )
 
-    tickets: Mapped[list["Ticket"]] = relationship(
+    errors: Mapped[list["Error"]] = relationship(
         back_populates="project",
         cascade="all, delete-orphan",
         passive_deletes=True,
     )
 
     @property
-    def ticket_count(self) -> int:
-        return len(self.tickets)
+    def error_count(self) -> int:
+        return len(self.errors)

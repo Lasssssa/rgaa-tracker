@@ -6,17 +6,17 @@ from pydantic import BaseModel, ConfigDict, Field
 Severity = Literal["minor", "moderate", "major", "critical"]
 
 
-class TicketBase(BaseModel):
+class ErrorBase(BaseModel):
     name: str = Field(min_length=1, max_length=255)
     description: str | None = None
 
 
-class TicketCreate(TicketBase):
+class ErrorCreate(ErrorBase):
     criterion_id: int
     severity: Severity
 
 
-class TicketUpdate(BaseModel):
+class ErrorUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=255)
     description: str | None = None
     criterion_id: int | None = None
@@ -24,29 +24,29 @@ class TicketUpdate(BaseModel):
     is_patched: bool | None = None
 
 
-class TicketThematic(BaseModel):
+class ErrorThematic(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     number: int
     name: str
 
 
-class TicketCriterion(BaseModel):
+class ErrorCriterion(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     code: str
     title: str
-    thematic: TicketThematic
+    thematic: ErrorThematic
 
 
-class TicketRead(TicketBase):
+class ErrorRead(ErrorBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
     project_id: int
     severity: str
-    criterion: TicketCriterion | None
+    criterion: ErrorCriterion | None
     is_patched: bool
     created_at: datetime
     updated_at: datetime

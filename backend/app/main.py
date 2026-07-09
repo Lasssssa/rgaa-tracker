@@ -10,8 +10,8 @@ from app.modules.criteria import models as _criteria_models  # noqa: F401
 from app.modules.criteria.router import router as criteria_router
 from app.modules.projects import models as _projects_models  # noqa: F401
 from app.modules.projects.router import router as projects_router
-from app.modules.tickets import models as _tickets_models  # noqa: F401
-from app.modules.tickets.router import router as tickets_router
+from app.modules.errors import models as _errors_models  # noqa: F401
+from app.modules.errors.router import router as errors_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -37,7 +37,7 @@ def handle_entity_not_found(_: Request, exc: EntityNotFoundError) -> JSONRespons
 
 app.include_router(criteria_router)
 app.include_router(projects_router)
-app.include_router(tickets_router)
+app.include_router(errors_router)
 
 
 @app.get("/")

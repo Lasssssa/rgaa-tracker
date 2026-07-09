@@ -19,7 +19,7 @@ from app.modules.criteria import models as _criteria_models  # noqa: F401
 from app.modules.criteria.repository import CriteriaRepository
 from app.modules.criteria.service import CriteriaService
 from app.modules.projects import models as _projects_models  # noqa: F401
-from app.modules.tickets import models as _tickets_models  # noqa: F401
+from app.modules.errors import models as _errors_models  # noqa: F401
 
 SEED_FILE = Path(__file__).resolve().parent.parent / "data" / "rgaa_criteria.json"
 

@@ -6,17 +6,17 @@ from app.modules.criteria.dependencies import get_criteria_repository
 from app.modules.criteria.repository import CriteriaRepository
 from app.modules.projects.dependencies import get_project_repository
 from app.modules.projects.repository import ProjectRepository
-from app.modules.tickets.repository import TicketRepository
-from app.modules.tickets.service import TicketService
+from app.modules.errors.repository import ErrorRepository
+from app.modules.errors.service import ErrorService
 
 
-def get_ticket_repository(db: Session = Depends(get_db)) -> TicketRepository:
-    return TicketRepository(db)
+def get_error_repository(db: Session = Depends(get_db)) -> ErrorRepository:
+    return ErrorRepository(db)
 
 
-def get_ticket_service(
-    repository: TicketRepository = Depends(get_ticket_repository),
+def get_error_service(
+    repository: ErrorRepository = Depends(get_error_repository),
     project_repository: ProjectRepository = Depends(get_project_repository),
     criteria_repository: CriteriaRepository = Depends(get_criteria_repository),
-) -> TicketService:
-    return TicketService(repository, project_repository, criteria_repository)
+) -> ErrorService:
+    return ErrorService(repository, project_repository, criteria_repository)

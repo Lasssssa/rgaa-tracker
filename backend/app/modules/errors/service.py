@@ -1,23 +1,23 @@
 from app.core.exceptions import EntityNotFoundError
 from app.modules.criteria.repository import CriteriaRepository
 from app.modules.projects.repository import ProjectRepository
-from app.modules.tickets.models import Ticket
-from app.modules.tickets.repository import TicketRepository
-from app.modules.tickets.schemas import TicketCreate, TicketUpdate
+from app.modules.errors.models import Error
+from app.modules.errors.repository import ErrorRepository
+from app.modules.errors.schemas import ErrorCreate, ErrorUpdate
 
 
-class TicketService:
-    """Business logic for tickets.
+class ErrorService:
+    """Business logic for errors.
 
     It depends on the *project* and *criteria* repositories too, because
-    "a ticket belongs to an existing project and references an existing
+    "a error belongs to an existing project and references an existing
     criterion" are business rules that belong here — not in the router and
     not in the database layer.
     """
 
     def __init__(
         self,
-        repository: TicketRepository,
+        repository: ErrorRepository,
         project_repository: ProjectRepository,
         criteria_repository: CriteriaRepository,
     ) -> None:
@@ -33,36 +33,36 @@ class TicketService:
         if self.criteria_repository.get_criterion(criterion_id) is None:
             raise EntityNotFoundError("Criterion")
 
-    def list_tickets(self, project_id: int) -> list[Ticket]:
+    def list_errors(self, project_id: int) -> list[Error]:
         self._ensure_project_exists(project_id)
         return self.repository.list_for_project(project_id)
 
-    def get_ticket(self, ticket_id: int) -> Ticket:
-        ticket = self.repository.get(ticket_id)
-        if ticket is None:
-            raise EntityNotFoundError("Ticket")
-        return ticket
+    def get_error(self, error_id: int) -> Error:
+        error = self.repository.get(error_id)
+        if error is None:
+            raise EntityNotFoundError("Error")
+        return error
 
-    def create_ticket(self, project_id: int, data: TicketCreate) -> Ticket:
+    def create_error(self, project_id: int, data: ErrorCreate) -> Error:
         self._ensure_project_exists(project_id)
         self._ensure_criterion_exists(data.criterion_id)
-        ticket = Ticket(project_id=project_id, **data.model_dump())
-        return self.repository.add(ticket)
+        error = Error(project_id=project_id, **data.model_dump())
+        return self.repository.add(error)
 
-    def update_ticket(self, ticket_id: int, data: TicketUpdate) -> Ticket:
-        ticket = self.get_ticket(ticket_id)
+    def update_error(self, error_id: int, data: ErrorUpdate) -> Error:
+        error = self.get_error(error_id)
         changes = data.model_dump(exclude_unset=True)
         if changes.get("criterion_id") is not None:
             self._ensure_criterion_exists(changes["criterion_id"])
         for field, value in changes.items():
-            setattr(ticket, field, value)
-        return self.repository.save(ticket)
+            setattr(error, field, value)
+        return self.repository.save(error)
 
-    def toggle_ticket(self, ticket_id: int) -> Ticket:
-        ticket = self.get_ticket(ticket_id)
-        ticket.is_patched = not ticket.is_patched
-        return self.repository.save(ticket)
+    def toggle_error(self, error_id: int) -> Error:
+        error = self.get_error(error_id)
+        error.is_patched = not error.is_patched
+        return self.repository.save(error)
 
-    def delete_ticket(self, ticket_id: int) -> None:
-        ticket = self.get_ticket(ticket_id)
-        self.repository.delete(ticket)
+    def delete_error(self, error_id: int) -> None:
+        error = self.get_error(error_id)
+        self.repository.delete(error)

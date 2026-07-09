@@ -26,6 +26,6 @@ class ProjectRead(ProjectBase):
 
     id: int
     global_compliance_rate: float | None
-    ticket_count: int
+    error_count: int
     created_at: datetime
     updated_at: datetime

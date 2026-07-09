@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useCriteriaList } from '../../hooks/useCriteriaList'
 import { SEVERITIES } from '../../lib/severity'
-import type { Severity, Ticket, TicketInput } from '../../types'
+import type { Severity, ProjectError, ErrorInput } from '../../types'
 import CriterionPicker from './CriterionPicker'
 
-interface TicketFormProps {
-  initial?: Ticket | null
+interface ErrorFormProps {
+  initial?: ProjectError | null
   onCancel: () => void
-  onSubmit: (data: TicketInput) => Promise<void>
+  onSubmit: (data: ErrorInput) => Promise<void>
 }
 
-export default function TicketForm({
+export default function ErrorForm({
   initial,
   onCancel,
   onSubmit,
-}: TicketFormProps) {
+}: ErrorFormProps) {
   const { criteria, loading: criteriaLoading } = useCriteriaList()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -54,7 +54,7 @@ export default function TicketForm({
 
   return (
     <form className="project-form" onSubmit={handleSubmit}>
-      <h2>{initial ? 'Modifier le ticket' : 'Nouveau ticket'}</h2>
+      <h2>{initial ? 'Modifier l’erreur' : 'Nouvelle erreur'}</h2>
 
       <div className="form-row">
         <label>
