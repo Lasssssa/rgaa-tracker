@@ -21,8 +21,17 @@ const GROUP_OPTIONS: { value: GroupBy; label: string }[] = [
   { value: 'thematic', label: 'Thématique' },
   { value: 'criterion', label: 'Critère' },
   { value: 'severity', label: 'Sévérité' },
-  { value: 'none', label: 'Aucun' },
+  { value: 'none', label: 'Liste' },
 ]
+
+const GROUP_BY_STORAGE_KEY = 'errors-group-by'
+
+function initialGroupBy(): GroupBy {
+  const saved = localStorage.getItem(GROUP_BY_STORAGE_KEY)
+  return GROUP_OPTIONS.some((o) => o.value === saved)
+    ? (saved as GroupBy)
+    : 'thematic'
+}
 
 interface ErrorGroup {
   key: string
@@ -113,9 +122,14 @@ export default function ErrorsSection({ state }: ErrorsSectionProps) {
     removeError,
   } = state
   const [dialog, setDialog] = useState<Dialog>({ mode: 'closed' })
-  const [groupBy, setGroupBy] = useState<GroupBy>('thematic')
+  const [groupBy, setGroupBy] = useState<GroupBy>(initialGroupBy)
 
   const groups = useMemo(() => groupErrors(errors, groupBy), [errors, groupBy])
+
+  function changeGroupBy(value: GroupBy) {
+    setGroupBy(value)
+    localStorage.setItem(GROUP_BY_STORAGE_KEY, value)
+  }
 
   async function handleCreate(data: ErrorInput) {
     await createError(data)
@@ -151,19 +165,24 @@ export default function ErrorsSection({ state }: ErrorsSectionProps) {
           Erreurs {!loading && <span className="count">({errors.length})</span>}
         </h2>
         <div className="errors-controls">
-          <label className="group-by">
-            Grouper par
-            <select
-              value={groupBy}
-              onChange={(e) => setGroupBy(e.target.value as GroupBy)}
-            >
-              {GROUP_OPTIONS.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <fieldset className="segmented">
+            <legend className="sr-only">Grouper les erreurs par</legend>
+            {GROUP_OPTIONS.map(({ value, label }) => (
+              <label
+                key={value}
+                className={groupBy === value ? 'segment active' : 'segment'}
+              >
+                <input
+                  type="radio"
+                  name="errors-group-by"
+                  value={value}
+                  checked={groupBy === value}
+                  onChange={() => changeGroupBy(value)}
+                />
+                {label}
+              </label>
+            ))}
+          </fieldset>
           <button
             type="button"
             className="btn-primary"
