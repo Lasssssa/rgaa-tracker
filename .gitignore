@@ -9,5 +9,8 @@ venv/
 node_modules/
 dist/
 
+# Uploaded files (audit reports)
+backend/uploads/
+
 # OS / editor
 .DS_Store

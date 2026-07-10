@@ -5,6 +5,7 @@ import type { ProjectError, ErrorInput } from '../../types'
 import Modal from '../ui/Modal'
 import SeverityBadge from '../ui/SeverityBadge'
 import StatusBadge from '../ui/StatusBadge'
+import EmptyErrorsState from './EmptyErrorsState'
 import ErrorForm from './ErrorForm'
 import ErrorList from './ErrorList'
 import './ErrorsSection.css'
@@ -149,11 +150,12 @@ function GroupHeader({ label, description, count }: GroupHeaderProps) {
 }
 
 interface ErrorsSectionProps {
+  projectId: number
   /** Errors state owned by the page, so it can derive stats from it. */
   state: ReturnType<typeof useErrors>
 }
 
-export default function ErrorsSection({ state }: ErrorsSectionProps) {
+export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) {
   const {
     errors,
     loading,
@@ -241,7 +243,10 @@ export default function ErrorsSection({ state }: ErrorsSectionProps) {
       {loading ? (
         <p className="empty">Chargement…</p>
       ) : errors.length === 0 ? (
-        <p className="empty">Aucune erreur pour ce projet.</p>
+        <EmptyErrorsState
+          projectId={projectId}
+          onCreateManually={() => setDialog({ mode: 'create' })}
+        />
       ) : (
         groups.map((group) => (
           <div key={group.key} className="error-group">

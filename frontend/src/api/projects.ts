@@ -1,5 +1,5 @@
 import type { Project, ProjectInput } from '../types'
-import { request } from './client'
+import { request, upload } from './client'
 
 export const projectsApi = {
   list: () => request<Project[]>('/projects'),
@@ -16,4 +16,12 @@ export const projectsApi = {
     }),
   remove: (id: number) =>
     request<void>(`/projects/${id}`, { method: 'DELETE' }),
+  uploadAuditPdf: (id: number, file: File) => {
+    const form = new FormData()
+    form.append('file', file)
+    return upload<{ filename: string; size: number }>(
+      `/projects/${id}/audit-pdf`,
+      form,
+    )
+  },
 }

@@ -5,7 +5,7 @@ from sqlalchemy import text
 
 # Import the models so their tables are registered on Base before create_all.
 from app.core.database import Base, engine
-from app.core.exceptions import EntityNotFoundError
+from app.core.exceptions import EntityNotFoundError, InvalidFileError
 from app.modules.criteria import models as _criteria_models  # noqa: F401
 from app.modules.criteria.router import router as criteria_router
 from app.modules.projects import models as _projects_models  # noqa: F401
@@ -32,6 +32,13 @@ def handle_entity_not_found(_: Request, exc: EntityNotFoundError) -> JSONRespons
     services never need to import anything from FastAPI."""
     return JSONResponse(
         status_code=status.HTTP_404_NOT_FOUND, content={"detail": str(exc)}
+    )
+
+
+@app.exception_handler(InvalidFileError)
+def handle_invalid_file(_: Request, exc: InvalidFileError) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_400_BAD_REQUEST, content={"detail": str(exc)}
     )
 
 

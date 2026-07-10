@@ -110,7 +110,7 @@ export default function ProjectDetailPage() {
             </section>
           </div>
 
-          <ErrorsSection state={errorsState} />
+          <ErrorsSection projectId={project.id} state={errorsState} />
 
           {editing && (
             <Modal onClose={() => setEditing(false)}>

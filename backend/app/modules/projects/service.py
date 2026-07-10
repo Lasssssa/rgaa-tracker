@@ -1,7 +1,15 @@
-from app.core.exceptions import EntityNotFoundError
+from pathlib import Path
+
+from app.core.exceptions import EntityNotFoundError, InvalidFileError
 from app.modules.projects.models import Project
 from app.modules.projects.repository import ProjectRepository
 from app.modules.projects.schemas import ProjectCreate, ProjectUpdate
+
+# Uploaded audit reports live outside the package, next to the app code
+# (bind-mounted in dev). One folder per project, a fixed name so re-uploads
+# simply replace the previous report.
+UPLOADS_DIR = Path("uploads")
+MAX_PDF_SIZE = 20 * 1024 * 1024  # 20 MB
 
 
 class ProjectService:
@@ -37,3 +45,24 @@ class ProjectService:
     def delete_project(self, project_id: int) -> None:
         project = self.get_project(project_id)
         self.repository.delete(project)
+
+    def save_audit_pdf(
+        self, project_id: int, filename: str, content: bytes
+    ) -> dict:
+        """Store the uploaded audit report for later extraction.
+
+        Only validates and persists the file for now — the error-extraction
+        step will be built on top of it.
+        """
+        self.get_project(project_id)
+
+        if not content.startswith(b"%PDF-"):
+            raise InvalidFileError("Le fichier doit être un PDF valide")
+        if len(content) > MAX_PDF_SIZE:
+            raise InvalidFileError("Le fichier dépasse la taille maximale (20 Mo)")
+
+        destination_dir = UPLOADS_DIR / str(project_id)
+        destination_dir.mkdir(parents=True, exist_ok=True)
+        (destination_dir / "audit.pdf").write_bytes(content)
+
+        return {"filename": filename, "size": len(content)}

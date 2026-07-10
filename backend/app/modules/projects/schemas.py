@@ -29,3 +29,8 @@ class ProjectRead(ProjectBase):
     error_count: int
     created_at: datetime
     updated_at: datetime
+
+
+class AuditPdfUploadResult(BaseModel):
+    filename: str
+    size: int

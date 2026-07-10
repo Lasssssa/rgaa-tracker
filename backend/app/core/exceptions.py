@@ -20,3 +20,10 @@ class EntityNotFoundError(DomainError):
     def __init__(self, entity: str) -> None:
         self.entity = entity
         super().__init__(f"{entity} not found")
+
+
+class InvalidFileError(DomainError):
+    """Raised when an uploaded file is rejected (wrong type, too large...).
+
+    Translated to HTTP 400 by the handler in ``main.py``.
+    """
