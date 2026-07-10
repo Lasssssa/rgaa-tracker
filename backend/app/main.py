@@ -12,6 +12,8 @@ from app.modules.projects import models as _projects_models  # noqa: F401
 from app.modules.projects.router import router as projects_router
 from app.modules.errors import models as _errors_models  # noqa: F401
 from app.modules.errors.router import router as errors_router
+from app.modules.issues import models as _issues_models  # noqa: F401
+from app.modules.issues.router import router as issues_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -45,6 +47,7 @@ def handle_invalid_file(_: Request, exc: InvalidFileError) -> JSONResponse:
 app.include_router(criteria_router)
 app.include_router(projects_router)
 app.include_router(errors_router)
+app.include_router(issues_router)
 
 
 @app.get("/")

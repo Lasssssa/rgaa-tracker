@@ -47,6 +47,7 @@ class ErrorRead(ErrorBase):
     project_id: int
     severity: str
     criterion: ErrorCriterion | None
+    issue_id: int | None
     is_patched: bool
     created_at: datetime
     updated_at: datetime
