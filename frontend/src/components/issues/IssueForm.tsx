@@ -1,6 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { severityLabel } from '../../lib/severity'
+import { matchesWords } from '../../lib/text'
 import type { Issue, IssueInput, ProjectError } from '../../types'
 import SeverityBadge from '../ui/SeverityBadge'
+
+/** Everything an error can be searched by in the picker. */
+function errorHaystack(error: ProjectError): string {
+  const criterion = error.criterion
+  return [
+    error.name,
+    criterion?.code,
+    criterion?.title,
+    criterion?.thematic.name,
+    severityLabel(error.severity),
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
 
 interface IssueFormProps {
   initial?: Issue | null
@@ -19,8 +35,15 @@ export default function IssueForm({
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+  const [query, setQuery] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const visibleErrors = useMemo(() => {
+    const q = query.trim()
+    if (!q) return projectErrors
+    return projectErrors.filter((e) => matchesWords(errorHaystack(e), q))
+  }, [projectErrors, query])
 
   useEffect(() => {
     setName(initial?.name ?? '')
@@ -92,8 +115,22 @@ export default function IssueForm({
         {projectErrors.length === 0 ? (
           <p className="form-hint">Ce projet n'a pas encore d'erreurs.</p>
         ) : (
-          <ul className="error-picker-list">
-            {projectErrors.map((projectError) => {
+          <>
+            <input
+              type="search"
+              className="error-picker-search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Filtrer… (nom, critère, thématique, sévérité)"
+              aria-label="Filtrer les erreurs"
+            />
+            {visibleErrors.length === 0 ? (
+              <p className="form-hint">
+                Aucune erreur ne correspond à « {query} ».
+              </p>
+            ) : (
+              <ul className="error-picker-list">
+                {visibleErrors.map((projectError) => {
               const inOtherIssue =
                 projectError.issue_id != null &&
                 projectError.issue_id !== initial?.id
@@ -125,8 +162,10 @@ export default function IssueForm({
                   </label>
                 </li>
               )
-            })}
-          </ul>
+                })}
+              </ul>
+            )}
+          </>
         )}
       </fieldset>
 
