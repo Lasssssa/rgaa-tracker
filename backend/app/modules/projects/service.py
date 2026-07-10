@@ -9,7 +9,7 @@ from app.modules.projects.schemas import ProjectCreate, ProjectUpdate
 # (bind-mounted in dev). One folder per project, a fixed name so re-uploads
 # simply replace the previous report.
 UPLOADS_DIR = Path("uploads")
-MAX_PDF_SIZE = 20 * 1024 * 1024  # 20 MB
+MAX_PDF_SIZE = 100 * 1024 * 1024  # 100 MB
 
 
 class ProjectService:
@@ -59,7 +59,7 @@ class ProjectService:
         if not content.startswith(b"%PDF-"):
             raise InvalidFileError("Le fichier doit être un PDF valide")
         if len(content) > MAX_PDF_SIZE:
-            raise InvalidFileError("Le fichier dépasse la taille maximale (20 Mo)")
+            raise InvalidFileError("Le fichier dépasse la taille maximale (100 Mo)")
 
         destination_dir = UPLOADS_DIR / str(project_id)
         destination_dir.mkdir(parents=True, exist_ok=True)
