@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ProjectForm from '../../components/projects/ProjectForm'
 import ProjectsTable from '../../components/projects/ProjectsTable'
+import ConfirmModal from '../../components/ui/ConfirmModal'
 import Modal from '../../components/ui/Modal'
 import { useProjects } from '../../hooks/useProjects'
 import type { Project, ProjectInput } from '../../types'
@@ -10,6 +11,7 @@ type Dialog =
   | { mode: 'closed' }
   | { mode: 'create' }
   | { mode: 'edit'; project: Project }
+  | { mode: 'delete'; project: Project }
 
 export default function ProjectsPage() {
   const {
@@ -34,11 +36,12 @@ export default function ProjectsPage() {
   }
 
   async function handleDelete(project: Project) {
-    if (!window.confirm(`Supprimer le projet « ${project.name} » ?`)) return
     try {
       await removeProject(project.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Suppression impossible')
+    } finally {
+      setDialog({ mode: 'closed' })
     }
   }
 
@@ -70,11 +73,11 @@ export default function ProjectsPage() {
         <ProjectsTable
           projects={projects}
           onEdit={(project) => setDialog({ mode: 'edit', project })}
-          onDelete={handleDelete}
+          onDelete={(project) => setDialog({ mode: 'delete', project })}
         />
       )}
 
-      {dialog.mode !== 'closed' && (
+      {(dialog.mode === 'create' || dialog.mode === 'edit') && (
         <Modal onClose={() => setDialog({ mode: 'closed' })}>
           <ProjectForm
             initial={dialog.mode === 'edit' ? dialog.project : null}
@@ -86,6 +89,15 @@ export default function ProjectsPage() {
             }
           />
         </Modal>
+      )}
+
+      {dialog.mode === 'delete' && (
+        <ConfirmModal
+          title="Supprimer le projet"
+          message={`Le projet « ${dialog.project.name} » et ses ${dialog.project.error_count} erreur${dialog.project.error_count > 1 ? 's' : ''} seront définitivement supprimés.`}
+          onCancel={() => setDialog({ mode: 'closed' })}
+          onConfirm={() => handleDelete(dialog.project)}
+        />
       )}
     </main>
   )

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useErrors } from '../../hooks/useErrors'
 import { SEVERITIES, severityLabel, severityRank } from '../../lib/severity'
 import type { ProjectError, ErrorInput } from '../../types'
+import ConfirmModal from '../ui/ConfirmModal'
 import Modal from '../ui/Modal'
 import SeverityBadge from '../ui/SeverityBadge'
 import StatusBadge from '../ui/StatusBadge'
@@ -15,6 +16,7 @@ type Dialog =
   | { mode: 'create' }
   | { mode: 'edit'; error: ProjectError }
   | { mode: 'view'; error: ProjectError }
+  | { mode: 'delete'; error: ProjectError }
 
 type GroupBy = 'thematic' | 'criterion' | 'severity' | 'none'
 
@@ -195,11 +197,12 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
   }
 
   async function handleDelete(error: ProjectError) {
-    if (!window.confirm(`Supprimer l’erreur « ${error.name} » ?`)) return
     try {
       await removeError(error.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Suppression impossible')
+    } finally {
+      setDialog({ mode: 'closed' })
     }
   }
 
@@ -262,7 +265,7 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
               onView={(error) => setDialog({ mode: 'view', error })}
               onToggle={handleToggle}
               onEdit={(error) => setDialog({ mode: 'edit', error })}
-              onDelete={handleDelete}
+              onDelete={(error) => setDialog({ mode: 'delete', error })}
             />
           </div>
         ))
@@ -280,6 +283,15 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
             }
           />
         </Modal>
+      )}
+
+      {dialog.mode === 'delete' && (
+        <ConfirmModal
+          title="Supprimer l’erreur"
+          message={`L’erreur « ${dialog.error.name} » sera définitivement supprimée.`}
+          onCancel={() => setDialog({ mode: 'closed' })}
+          onConfirm={() => handleDelete(dialog.error)}
+        />
       )}
 
       {dialog.mode === 'view' && (

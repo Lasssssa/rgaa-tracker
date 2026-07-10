@@ -65,6 +65,38 @@
   background: var(--surface-alt);
 }
 
+.btn-danger {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Confirm dialog */
+.confirm-modal h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.confirm-message {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+
 .btn-link {
   background: none;
   border: none;
