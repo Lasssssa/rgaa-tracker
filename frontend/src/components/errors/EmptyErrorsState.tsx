@@ -8,6 +8,8 @@ type UploadStatus =
   | { state: 'done'; filename: string }
   | { state: 'failed'; message: string }
 
+const MAX_PDF_SIZE = 100 * 1024 * 1024 // keep in sync with the API limit
+
 interface EmptyErrorsStateProps {
   projectId: number
   onCreateManually: () => void
@@ -22,6 +24,22 @@ export default function EmptyErrorsState({
 
   async function handleFile(file: File | undefined) {
     if (!file) return
+    // Reset right away so selecting the same file again re-triggers change.
+    if (inputRef.current) inputRef.current.value = ''
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      setStatus({
+        state: 'failed',
+        message: 'Seuls les fichiers PDF sont acceptés.',
+      })
+      return
+    }
+    if (file.size > MAX_PDF_SIZE) {
+      setStatus({
+        state: 'failed',
+        message: 'Le fichier dépasse la taille maximale de 100 Mo.',
+      })
+      return
+    }
     setStatus({ state: 'uploading' })
     try {
       const result = await projectsApi.uploadAuditPdf(projectId, file)
@@ -31,9 +49,6 @@ export default function EmptyErrorsState({
         state: 'failed',
         message: err instanceof Error ? err.message : 'Import impossible',
       })
-    } finally {
-      // allow re-selecting the same file
-      if (inputRef.current) inputRef.current.value = ''
     }
   }
 
