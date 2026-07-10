@@ -59,6 +59,22 @@ export function UploadIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+export function SparklesIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <Icon {...props}>
+      <path d="M12 3v3" />
+      <path d="M12 18v3" />
+      <path d="M5.6 5.6 7 7" />
+      <path d="m17 17 1.4 1.4" />
+      <path d="M3 12h3" />
+      <path d="M18 12h3" />
+      <path d="M5.6 18.4 7 17" />
+      <path d="m17 7 1.4-1.4" />
+      <circle cx="12" cy="12" r="3" />
+    </Icon>
+  )
+}
+
 export function ChevronsLeftIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <Icon {...props}>

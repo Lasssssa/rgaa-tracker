@@ -1,28 +1,15 @@
 .errors-section {
-  margin-top: 2.5rem;
+  margin-top: 1.25rem;
 }
 
 .errors-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
   margin-bottom: 1rem;
-}
-
-.errors-header h2 {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-.errors-header .count {
-  color: var(--muted);
-  font-weight: 400;
 }
 
 .errors-controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
 }

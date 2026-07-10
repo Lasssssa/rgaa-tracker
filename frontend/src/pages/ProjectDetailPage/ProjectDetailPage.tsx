@@ -2,18 +2,24 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { projectsApi } from '../../api'
 import ErrorsSection from '../../components/errors/ErrorsSection'
+import IssuesSection from '../../components/issues/IssuesSection'
 import ProjectForm from '../../components/projects/ProjectForm'
 import Modal from '../../components/ui/Modal'
 import { useErrors } from '../../hooks/useErrors'
+import { useIssues } from '../../hooks/useIssues'
 import { useProject } from '../../hooks/useProject'
 import { formatDate, formatDateTime, formatRate } from '../../lib/format'
 import type { ProjectInput } from '../../types'
 import './ProjectDetailPage.css'
 
+type Tab = 'errors' | 'issues'
+
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>()
   const { project, setProject, loading, error } = useProject(id)
   const errorsState = useErrors(Number(id))
+  const issuesState = useIssues(Number(id))
+  const [tab, setTab] = useState<Tab>('errors')
   const [editing, setEditing] = useState(false)
 
   const total = errorsState.errors.length
@@ -110,7 +116,46 @@ export default function ProjectDetailPage() {
             </section>
           </div>
 
-          <ErrorsSection projectId={project.id} state={errorsState} />
+          <div className="detail-tabs" role="tablist" aria-label="Contenu du projet">
+            <button
+              type="button"
+              role="tab"
+              id="tab-errors"
+              aria-selected={tab === 'errors'}
+              aria-controls="panel-errors"
+              className={tab === 'errors' ? 'detail-tab active' : 'detail-tab'}
+              onClick={() => setTab('errors')}
+            >
+              Erreurs
+              <span className="tab-count">{errorsState.errors.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="tab-issues"
+              aria-selected={tab === 'issues'}
+              aria-controls="panel-issues"
+              className={tab === 'issues' ? 'detail-tab active' : 'detail-tab'}
+              onClick={() => setTab('issues')}
+            >
+              Issues
+              <span className="tab-count">{issuesState.issues.length}</span>
+            </button>
+          </div>
+
+          {tab === 'errors' ? (
+            <div id="panel-errors" role="tabpanel" aria-labelledby="tab-errors">
+              <ErrorsSection projectId={project.id} state={errorsState} />
+            </div>
+          ) : (
+            <div id="panel-issues" role="tabpanel" aria-labelledby="tab-issues">
+              <IssuesSection
+                state={issuesState}
+                projectErrors={errorsState.errors}
+                onIssuesChanged={errorsState.reload}
+              />
+            </div>
+          )}
 
           {editing && (
             <Modal onClose={() => setEditing(false)}>

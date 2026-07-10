@@ -211,7 +211,7 @@
   color: var(--ink);
 }
 
-.project-form input,
+.project-form input:not([type='checkbox']):not([type='radio']),
 .project-form textarea,
 .project-form select {
   display: block;

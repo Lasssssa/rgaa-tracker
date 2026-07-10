@@ -209,9 +209,6 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
   return (
     <section className="errors-section">
       <header className="errors-header">
-        <h2>
-          Erreurs {!loading && <span className="count">({errors.length})</span>}
-        </h2>
         <div className="errors-controls">
           <fieldset className="segmented">
             <legend className="sr-only">Grouper les erreurs par</legend>

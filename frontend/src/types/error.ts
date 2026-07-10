@@ -17,6 +17,7 @@ export interface ProjectError {
   description: string | null
   severity: Severity
   criterion: ErrorCriterion | null
+  issue_id: number | null
   is_patched: boolean
   created_at: string
   updated_at: string
