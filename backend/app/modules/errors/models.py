@@ -17,6 +17,7 @@ from app.core.database import Base
 if TYPE_CHECKING:
     from app.modules.criteria.models import Criterion
     from app.modules.issues.models import Issue
+    from app.modules.pages.models import Page
     from app.modules.projects.models import Project
 
 
@@ -35,6 +36,11 @@ class Error(Base):
     # Set when the error has been grouped into an issue.
     issue_id: Mapped[int | None] = mapped_column(
         ForeignKey("issues.id", ondelete="SET NULL"), index=True, nullable=True
+    )
+    # The audited page the error was observed on. NULL means the error is a
+    # global / transverse element (header, footer, menu…).
+    page_id: Mapped[int | None] = mapped_column(
+        ForeignKey("pages.id", ondelete="SET NULL"), index=True, nullable=True
     )
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -58,3 +64,4 @@ class Error(Base):
     project: Mapped["Project"] = relationship(back_populates="errors")
     criterion: Mapped["Criterion | None"] = relationship()
     issue: Mapped["Issue | None"] = relationship(back_populates="errors")
+    page: Mapped["Page | None"] = relationship(back_populates="errors")

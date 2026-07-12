@@ -19,7 +19,8 @@ class ErrorRepository:
                 .options(
                     selectinload(Error.criterion).selectinload(
                         Criterion.thematic
-                    )
+                    ),
+                    selectinload(Error.page),
                 )
                 .order_by(Error.created_at.desc())
             )

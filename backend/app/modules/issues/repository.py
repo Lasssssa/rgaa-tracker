@@ -5,9 +5,11 @@ from app.modules.criteria.models import Criterion
 from app.modules.errors.models import Error
 from app.modules.issues.models import Issue
 
-# Issues are served with their errors (and each error's criterion) embedded.
+# Issues are served with their errors (and each error's criterion and page)
+# embedded.
 _WITH_ERRORS = selectinload(Issue.errors).options(
-    selectinload(Error.criterion).selectinload(Criterion.thematic)
+    selectinload(Error.criterion).selectinload(Criterion.thematic),
+    selectinload(Error.page),
 )
 
 

@@ -14,6 +14,8 @@ class ErrorBase(BaseModel):
 class ErrorCreate(ErrorBase):
     criterion_id: int
     severity: Severity
+    # None = global / transverse element, not tied to a specific page.
+    page_id: int | None = None
 
 
 class ErrorUpdate(BaseModel):
@@ -22,6 +24,7 @@ class ErrorUpdate(BaseModel):
     criterion_id: int | None = None
     severity: Severity | None = None
     is_patched: bool | None = None
+    page_id: int | None = None
 
 
 class ErrorThematic(BaseModel):
@@ -40,6 +43,14 @@ class ErrorCriterion(BaseModel):
     thematic: ErrorThematic
 
 
+class ErrorPage(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    url: str | None
+
+
 class ErrorRead(ErrorBase):
     model_config = ConfigDict(from_attributes=True)
 
@@ -48,6 +59,7 @@ class ErrorRead(ErrorBase):
     severity: str
     criterion: ErrorCriterion | None
     issue_id: int | None
+    page: ErrorPage | None
     is_patched: bool
     created_at: datetime
     updated_at: datetime

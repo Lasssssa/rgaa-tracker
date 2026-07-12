@@ -14,8 +14,26 @@ from app.modules.errors import models as _errors_models  # noqa: F401
 from app.modules.errors.router import router as errors_router
 from app.modules.issues import models as _issues_models  # noqa: F401
 from app.modules.issues.router import router as issues_router
+from app.modules.pages import models as _pages_models  # noqa: F401
+from app.modules.pages.router import router as pages_router
 
 Base.metadata.create_all(bind=engine)
+
+# create_all only creates missing tables — it never alters existing ones.
+# Patch databases created before pages existed so their data survives.
+with engine.begin() as connection:
+    connection.execute(
+        text(
+            "ALTER TABLE errors ADD COLUMN IF NOT EXISTS page_id INTEGER "
+            "REFERENCES pages(id) ON DELETE SET NULL"
+        )
+    )
+    connection.execute(
+        text(
+            "CREATE INDEX IF NOT EXISTS ix_errors_page_id "
+            "ON errors (page_id)"
+        )
+    )
 
 app = FastAPI(title="RGAA Tracker API")
 
@@ -48,6 +66,7 @@ app.include_router(criteria_router)
 app.include_router(projects_router)
 app.include_router(errors_router)
 app.include_router(issues_router)
+app.include_router(pages_router)
 
 
 @app.get("/")
