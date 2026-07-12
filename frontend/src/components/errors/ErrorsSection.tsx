@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useErrors } from '../../hooks/useErrors'
 import { SEVERITIES, severityLabel, severityRank } from '../../lib/severity'
-import type { ProjectError, ErrorInput } from '../../types'
+import type { Page, ProjectError, ErrorInput } from '../../types'
 import ConfirmModal from '../ui/ConfirmModal'
 import Modal from '../ui/Modal'
 import SeverityBadge from '../ui/SeverityBadge'
@@ -18,14 +18,18 @@ type Dialog =
   | { mode: 'view'; error: ProjectError }
   | { mode: 'delete'; error: ProjectError }
 
-type GroupBy = 'thematic' | 'criterion' | 'severity' | 'none'
+type GroupBy = 'thematic' | 'criterion' | 'severity' | 'page' | 'none'
 
 const GROUP_OPTIONS: { value: GroupBy; label: string }[] = [
   { value: 'thematic', label: 'Thématique' },
   { value: 'criterion', label: 'Critère' },
   { value: 'severity', label: 'Sévérité' },
+  { value: 'page', label: 'Page' },
   { value: 'none', label: 'Liste' },
 ]
+
+/** Label for errors not tied to a specific page. */
+const TRANSVERSE_LABEL = 'Éléments globaux / transverses'
 
 const GROUP_BY_STORAGE_KEY = 'errors-group-by'
 
@@ -66,6 +70,26 @@ function groupErrors(errors: ProjectError[], groupBy: GroupBy): ErrorGroup[] {
       label: severityLabel(value),
       errors: sorted.filter((t) => t.severity === value),
     })).filter((group) => group.errors.length > 0)
+  }
+
+  if (groupBy === 'page') {
+    const pageGroups = new Map<string, ErrorGroup>()
+    for (const error of sorted) {
+      const key = error.page ? `page-${error.page.id}` : 'transverse'
+      const label = error.page ? error.page.name : TRANSVERSE_LABEL
+      const group = pageGroups.get(key)
+      if (group) {
+        group.errors.push(error)
+      } else {
+        pageGroups.set(key, { key, label, errors: [error] })
+      }
+    }
+    // Pages alphabetically, global / transverse elements last.
+    return [...pageGroups.values()].sort((a, b) => {
+      if (a.key === 'transverse') return 1
+      if (b.key === 'transverse') return -1
+      return a.label.localeCompare(b.label, 'fr')
+    })
   }
 
   const groups = new Map<string, ErrorGroup & { order: number[] }>()
@@ -155,9 +179,15 @@ interface ErrorsSectionProps {
   projectId: number
   /** Errors state owned by the page, so it can derive stats from it. */
   state: ReturnType<typeof useErrors>
+  /** The project's audited pages, to attach errors to. */
+  pages: Page[]
 }
 
-export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) {
+export default function ErrorsSection({
+  projectId,
+  state,
+  pages,
+}: ErrorsSectionProps) {
   const {
     errors,
     loading,
@@ -272,6 +302,7 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
         <Modal size="lg" onClose={() => setDialog({ mode: 'closed' })}>
           <ErrorForm
             initial={dialog.mode === 'edit' ? dialog.error : null}
+            pages={pages}
             onCancel={() => setDialog({ mode: 'closed' })}
             onSubmit={(data) =>
               dialog.mode === 'edit'
@@ -307,6 +338,27 @@ export default function ErrorsSection({ projectId, state }: ErrorsSectionProps) 
                 {dialog.error.criterion.title}
               </p>
             )}
+            <p className="error-view-page">
+              {dialog.error.page ? (
+                <>
+                  Page : {dialog.error.page.name}
+                  {dialog.error.page.url && (
+                    <>
+                      {' — '}
+                      <a
+                        href={dialog.error.page.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {dialog.error.page.url}
+                      </a>
+                    </>
+                  )}
+                </>
+              ) : (
+                TRANSVERSE_LABEL
+              )}
+            </p>
             <p className="error-view-desc">
               {dialog.error.description || 'Aucune description.'}
             </p>

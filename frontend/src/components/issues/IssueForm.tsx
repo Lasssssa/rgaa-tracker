@@ -12,6 +12,7 @@ function errorHaystack(error: ProjectError): string {
     criterion?.code,
     criterion?.title,
     criterion?.thematic.name,
+    error.page?.name,
     severityLabel(error.severity),
   ]
     .filter(Boolean)

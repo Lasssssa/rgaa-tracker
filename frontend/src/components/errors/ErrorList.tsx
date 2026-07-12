@@ -37,6 +37,11 @@ export default function ErrorList({
             >
               {error.name}
             </button>
+            {error.page && (
+              <span className="error-page-tag" title={error.page.url ?? undefined}>
+                {error.page.name}
+              </span>
+            )}
             <SeverityBadge severity={error.severity} />
             <StatusBadge patched={error.is_patched} />
           </div>

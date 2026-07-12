@@ -3,21 +3,24 @@ import { Link, useParams } from 'react-router-dom'
 import { projectsApi } from '../../api'
 import ErrorsSection from '../../components/errors/ErrorsSection'
 import IssuesSection from '../../components/issues/IssuesSection'
+import PagesSection from '../../components/pages/PagesSection'
 import ProjectForm from '../../components/projects/ProjectForm'
 import Modal from '../../components/ui/Modal'
 import { useErrors } from '../../hooks/useErrors'
 import { useIssues } from '../../hooks/useIssues'
+import { usePages } from '../../hooks/usePages'
 import { useProject } from '../../hooks/useProject'
 import { formatDate, formatDateTime, formatRate } from '../../lib/format'
 import type { ProjectInput } from '../../types'
 import './ProjectDetailPage.css'
 
-type Tab = 'errors' | 'issues'
+type Tab = 'errors' | 'pages' | 'issues'
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>()
   const { project, setProject, loading, error } = useProject(id)
   const errorsState = useErrors(Number(id))
+  const pagesState = usePages(Number(id))
   const issuesState = useIssues(Number(id))
   const [tab, setTab] = useState<Tab>('errors')
   const [editing, setEditing] = useState(false)
@@ -132,6 +135,18 @@ export default function ProjectDetailPage() {
             <button
               type="button"
               role="tab"
+              id="tab-pages"
+              aria-selected={tab === 'pages'}
+              aria-controls="panel-pages"
+              className={tab === 'pages' ? 'detail-tab active' : 'detail-tab'}
+              onClick={() => setTab('pages')}
+            >
+              Pages
+              <span className="tab-count">{pagesState.pages.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
               id="tab-issues"
               aria-selected={tab === 'issues'}
               aria-controls="panel-issues"
@@ -145,7 +160,19 @@ export default function ProjectDetailPage() {
 
           {tab === 'errors' ? (
             <div id="panel-errors" role="tabpanel" aria-labelledby="tab-errors">
-              <ErrorsSection projectId={project.id} state={errorsState} />
+              <ErrorsSection
+                projectId={project.id}
+                state={errorsState}
+                pages={pagesState.pages}
+              />
+            </div>
+          ) : tab === 'pages' ? (
+            <div id="panel-pages" role="tabpanel" aria-labelledby="tab-pages">
+              <PagesSection
+                state={pagesState}
+                projectErrors={errorsState.errors}
+                onPagesChanged={errorsState.reload}
+              />
             </div>
           ) : (
             <div id="panel-issues" role="tabpanel" aria-labelledby="tab-issues">

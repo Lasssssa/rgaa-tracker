@@ -281,6 +281,21 @@
   flex-wrap: wrap;
 }
 
+/* The audited page the error was observed on */
+.error-page-tag {
+  flex-shrink: 0;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0.05rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-alt);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
 /* View modal */
 .error-view-head {
   display: flex;
@@ -302,6 +317,16 @@
   font-size: 0.9rem;
   color: var(--muted);
   line-height: 1.45;
+}
+
+.error-view-page {
+  margin: 0 0 0.85rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.error-view-page a {
+  color: var(--accent-text);
 }
 
 .error-view-desc {

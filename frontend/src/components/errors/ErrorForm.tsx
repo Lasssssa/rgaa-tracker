@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
 import { useCriteriaList } from '../../hooks/useCriteriaList'
 import { SEVERITIES } from '../../lib/severity'
-import type { Severity, ProjectError, ErrorInput } from '../../types'
+import type { Page, Severity, ProjectError, ErrorInput } from '../../types'
 import CriterionPicker from './CriterionPicker'
 
 interface ErrorFormProps {
   initial?: ProjectError | null
+  /** The project's audited pages; empty means everything is transverse. */
+  pages: Page[]
   onCancel: () => void
   onSubmit: (data: ErrorInput) => Promise<void>
 }
 
 export default function ErrorForm({
   initial,
+  pages,
   onCancel,
   onSubmit,
 }: ErrorFormProps) {
@@ -20,6 +23,7 @@ export default function ErrorForm({
   const [description, setDescription] = useState('')
   const [criterionId, setCriterionId] = useState<number | null>(null)
   const [severity, setSeverity] = useState<Severity>('moderate')
+  const [pageId, setPageId] = useState<number | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -28,6 +32,7 @@ export default function ErrorForm({
     setDescription(initial?.description ?? '')
     setCriterionId(initial?.criterion?.id ?? null)
     setSeverity(initial?.severity ?? 'moderate')
+    setPageId(initial?.page?.id ?? null)
   }, [initial])
 
   async function handleSubmit(event: React.FormEvent) {
@@ -44,6 +49,7 @@ export default function ErrorForm({
         description: description.trim() || null,
         criterion_id: criterionId,
         severity,
+        page_id: pageId,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Une erreur est survenue')
@@ -97,6 +103,29 @@ export default function ErrorForm({
           />
         )}
       </div>
+
+      <label>
+        Page concernée
+        <select
+          value={pageId ?? ''}
+          onChange={(e) =>
+            setPageId(e.target.value === '' ? null : Number(e.target.value))
+          }
+        >
+          <option value="">Élément global / transverse</option>
+          {pages.map((page) => (
+            <option key={page.id} value={page.id}>
+              {page.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      {pages.length === 0 && (
+        <p className="form-hint">
+          Ce projet n'a pas encore de pages — ajoutez-en depuis l'onglet
+          « Pages » pour rattacher l'erreur à une page précise.
+        </p>
+      )}
 
       <label>
         Description
