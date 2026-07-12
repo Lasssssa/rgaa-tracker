@@ -10,6 +10,12 @@ export interface ErrorCriterion {
   }
 }
 
+export interface ErrorPage {
+  id: number
+  name: string
+  url: string | null
+}
+
 export interface ProjectError {
   id: number
   project_id: number
@@ -18,6 +24,8 @@ export interface ProjectError {
   severity: Severity
   criterion: ErrorCriterion | null
   issue_id: number | null
+  /** The audited page, or null for a global / transverse element. */
+  page: ErrorPage | null
   is_patched: boolean
   created_at: string
   updated_at: string
@@ -28,4 +36,5 @@ export interface ErrorInput {
   description?: string | null
   criterion_id: number
   severity: Severity
+  page_id?: number | null
 }

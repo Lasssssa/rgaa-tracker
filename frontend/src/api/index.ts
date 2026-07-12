@@ -1,5 +1,6 @@
 export { chatApi } from './chat'
 export { criteriaApi } from './criteria'
 export { issuesApi } from './issues'
+export { pagesApi } from './pages'
 export { projectsApi } from './projects'
 export { errorsApi } from './errors'
