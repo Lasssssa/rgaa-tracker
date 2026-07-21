@@ -31,10 +31,9 @@ export default function Sidebar() {
   return (
     <aside className={collapsed ? 'sidebar collapsed' : 'sidebar'}>
       <div className="sidebar-brand">
-        <span className="brand-mark" aria-hidden="true">
-          R
+        <span className="brand-window">
+          <img className="sidebar-logo" src="/logo-png.png" alt="RGAA Tracker" />
         </span>
-        <span className="sidebar-text">RGAA Tracker</span>
       </div>
 
       <nav className="sidebar-nav">

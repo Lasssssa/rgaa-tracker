@@ -6,6 +6,7 @@ import IssuesSection from '../../components/issues/IssuesSection'
 import PagesSection from '../../components/pages/PagesSection'
 import ProjectForm from '../../components/projects/ProjectForm'
 import Modal from '../../components/ui/Modal'
+import SeverityLedger from '../../components/ui/SeverityLedger'
 import { useErrors } from '../../hooks/useErrors'
 import { useIssues } from '../../hooks/useIssues'
 import { usePages } from '../../hooks/usePages'
@@ -68,56 +69,67 @@ export default function ProjectDetailPage() {
             </button>
           </header>
 
-          <div className="detail-cards">
-            <section className="detail-card info-card" aria-label="Informations">
-              <dl>
-                <div>
-                  <dt>Client</dt>
-                  <dd>{project.client ?? '—'}</dd>
-                </div>
-                <div>
-                  <dt>Date d'audit</dt>
-                  <dd>{formatDate(project.audit_date)}</dd>
-                </div>
-                <div>
-                  <dt>Projet GitLab</dt>
-                  <dd>{project.gitlab_project_id ?? '—'}</dd>
-                </div>
-                <div>
-                  <dt>Conformité globale</dt>
-                  <dd>{formatRate(project.global_compliance_rate)}</dd>
-                </div>
-              </dl>
-            </section>
-
-            <section className="detail-card progress-card" aria-label="Avancement">
-              <h2 className="progress-title">Correction des erreurs</h2>
+          <section className="audit-summary" aria-label="Synthèse de l'audit">
+            <div className="audit-thesis">
+              <p className="eyebrow">Correction des erreurs</p>
               {total === 0 ? (
-                <p className="progress-empty">Aucune erreur relevée</p>
+                <p className="audit-thesis-empty">
+                  Aucune erreur relevée pour l'instant.
+                </p>
               ) : (
                 <>
-                  <p className="progress-figure">
-                    {patched}
-                    <span className="progress-total"> / {total} corrigée{patched > 1 ? 's' : ''}</span>
+                  <p className="audit-figure">
+                    <span className="num audit-figure-value">{progress}</span>
+                    <span className="audit-figure-unit">%</span>
+                  </p>
+                  <p className="audit-figure-sub">
+                    <span className="num">{patched}</span> / {total} erreur
+                    {total > 1 ? 's' : ''} corrigée{patched !== 1 ? 's' : ''}
                   </p>
                   <div
-                    className="progress-bar"
+                    className="audit-progress"
                     role="progressbar"
                     aria-valuenow={progress}
                     aria-valuemin={0}
                     aria-valuemax={100}
-                    aria-label="Erreurs corrigées"
+                    aria-label="Taux de correction"
                   >
                     <div
-                      className="progress-fill"
+                      className="audit-progress-fill"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
-                  <p className="progress-percent">{progress} %</p>
                 </>
               )}
-            </section>
-          </div>
+            </div>
+
+            {total > 0 && (
+              <div className="audit-ledger">
+                <SeverityLedger errors={errorsState.errors} />
+              </div>
+            )}
+
+            <dl className="audit-meta">
+              <div>
+                <dt className="eyebrow">Client</dt>
+                <dd>{project.client ?? '—'}</dd>
+              </div>
+              <div>
+                <dt className="eyebrow">Date d'audit</dt>
+                <dd className="num">{formatDate(project.audit_date)}</dd>
+              </div>
+              <div>
+                <dt className="eyebrow">Conformité</dt>
+                <dd className="num">
+                  {formatRate(project.global_compliance_rate)}
+                </dd>
+              </div>
+              <div>
+                <dt className="eyebrow">GitLab</dt>
+                <dd className="num">{project.gitlab_project_id ?? '—'}</dd>
+              </div>
+            </dl>
+          </section>
 
           <div className="detail-tabs" role="tablist" aria-label="Contenu du projet">
             <button

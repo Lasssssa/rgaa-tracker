@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   gap: 0.6rem;
   justify-content: center;
-  margin-top: 0.25rem;
+  margin-top: var(--space-1);
 }
 
 .import-review-head h2 {
@@ -17,8 +17,8 @@
 }
 
 .import-review-hint {
-  margin: 0 0 1rem;
-  font-size: 0.9rem;
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-sm);
   color: var(--muted);
 }
 
@@ -30,12 +30,12 @@
 }
 
 .import-group {
-  margin-top: 1rem;
+  margin-top: var(--space-4);
 }
 
 .import-group-title {
-  margin: 0 0 0.5rem;
-  font-size: 0.95rem;
+  margin: 0 0 var(--space-2);
+  font-size: var(--fs-base);
   color: var(--ink);
 }
 
@@ -45,17 +45,17 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }
 
 .import-error-row {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.75rem;
+  gap: var(--space-3);
   align-items: start;
-  padding: 0.75rem;
+  padding: var(--space-3);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--surface);
 }
 
@@ -76,7 +76,7 @@
 
 .import-error-desc {
   margin: 0 0 0.4rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--muted);
 }
 
@@ -94,7 +94,7 @@
 }
 
 .import-error-page {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--muted);
 }
 
@@ -102,10 +102,10 @@
   display: inline-flex;
   align-items: center;
   padding: 0.1rem 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius);
   background: var(--warning-bg);
   color: var(--warning-text);
-  font-size: 0.72rem;
+  font-size: var(--fs-2xs);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -113,9 +113,9 @@
 .import-error-severity select {
   padding: 0.35rem 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: var(--surface);
   color: var(--text);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }

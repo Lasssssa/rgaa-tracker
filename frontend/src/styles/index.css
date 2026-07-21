@@ -1,44 +1,96 @@
 :root {
-  /* --- Brand: Blue France (DSFR-inspired), used as the single accent ------ */
-  --accent: #1e1ea8; /* deep France blue — primary actions, active states */
-  --accent-hover: #2b2bc4;
-  --accent-active: #3838d6;
-  --accent-soft: #e6e6fb; /* light blue — soft fills, active nav background */
-  --accent-text: #1e1ea8; /* AA-readable blue for links and chips on white */
-  --on-accent: #ffffff; /* text/icons placed on an --accent background */
+  /* ------------------------------------------------------------------ *
+   * Palette — "instrument": indigo ink on chalk, earthy domain semantics
+   * ------------------------------------------------------------------ */
+  --ink: #1b1b34; /* Encre — titles, structural text */
+  --text: #3a3a52; /* body text (indigo-tinted, not neutral) */
+  --muted: #585874; /* Ardoise — secondary text */
+  --bg: #f3f3f8; /* Craie — app canvas */
+  --surface: #ffffff; /* Papier — cards, panels */
+  --surface-alt: #ececf3; /* subtle fills, hovers */
+  --border: #dedee8; /* Trait — hairlines */
+  --border-strong: #c7c7d6;
 
-  /* --- Neutrals ---------------------------------------------------------- */
-  --ink: #161616; /* titles, strong text */
-  --text: #3a3a3a; /* body text */
-  --muted: #666666; /* secondary / mention text */
-  --bg: #f6f6f6; /* page canvas */
-  --surface: #ffffff; /* cards, panels */
-  --surface-alt: #f3f3f3; /* subtle fills, hovers */
-  --border: #dddddd;
+  /* Bleu de travail — the single accent */
+  --accent: #2626ce;
+  --accent-hover: #1d1da6;
+  --accent-active: #16167e;
+  --accent-soft: #e7e7fb; /* light indigo — soft fills, active nav */
+  --accent-text: #2626ce; /* 9.3:1 on white — safe for links/labels */
+  --on-accent: #ffffff;
 
-  /* --- Semantic (DSFR system feedback colours) --------------------------- */
-  --success: #18753c;
-  --success-bg: #e3fbe8;
-  --error: #ce0500;
-  --error-hover: #a30000;
-  --error-bg: #ffe9e9;
-  --warning-text: #b34000;
-  --warning-bg: #ffe9e0;
-  --info-text: #0063cb;
-  --info-bg: #e8edff;
+  /* Feedback / status (considered, not default) */
+  --success: #0b7a4b;
+  --success-bg: #e1f4ea;
+  --error: #c0102a;
+  --error-hover: #99091f;
+  --error-bg: #fbe7ea;
+  --warning-text: #b23a00;
+  --warning-bg: #fbebdd;
+  --info-text: #1f4fd8;
+  --info-bg: #e7ecfb;
 
-  /* --- Focus, radii, elevation ------------------------------------------ */
-  --focus: #0a76f6; /* DSFR focus ring */
+  /* Severity ramp — solids drive the severity ledger; tints back the badges */
+  --sev-minor: #585874;
+  --sev-minor-bg: #ececf3;
+  --sev-minor-solid: #9a9ab0;
+  --sev-moderate: #7a5a00;
+  --sev-moderate-bg: #f7eed3;
+  --sev-moderate-solid: #d99a00;
+  --sev-major: #b23a00;
+  --sev-major-bg: #fbebdd;
+  --sev-major-solid: #e0601e;
+  --sev-critical: #c0102a;
+  --sev-critical-bg: #fbe7ea;
+  --sev-critical-solid: #c0102a;
+
+  /* ------------------------------------------------------------------ *
+   * Type — three deliberate roles
+   * ------------------------------------------------------------------ */
+  --display: 'Space Grotesk', 'Public Sans', system-ui, sans-serif;
+  --sans:
+    'Public Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --mono:
+    ui-monospace, 'SF Mono', 'SFMono-Regular', Menlo, 'Cascadia Code',
+    'Roboto Mono', monospace;
+
+  /* Modular scale (one system, no more ad-hoc sizes) */
+  --fs-2xs: 0.6875rem; /* 11 — micro labels, eyebrows */
+  --fs-xs: 0.75rem; /* 12 — badges, dense labels */
+  --fs-sm: 0.875rem; /* 14 — secondary / dense UI */
+  --fs-base: 1rem; /* 16 — body */
+  --fs-md: 1.125rem; /* 18 — lead, emphasis */
+  --fs-lg: 1.375rem; /* 22 — section headings */
+  --fs-xl: 1.75rem; /* 28 — page title */
+  --fs-2xl: 2.25rem; /* 36 — hero title */
+  --fs-3xl: 3rem; /* 48 — thesis figure */
+  --fs-4xl: 4rem; /* 64 — big figure */
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Focus ring — brighter than the accent so it reads even on blue controls */
+  --focus: #3b4cff;
+
+  /* Radii, elevation, motion */
   --radius-sm: 0.25rem;
   --radius: 0.5rem;
   --radius-lg: 0.75rem;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 18, 0.06);
-  --shadow-md: 0 2px 8px rgba(0, 0, 18, 0.08);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 18, 0.18);
+  --shadow-sm: 0 1px 2px rgba(27, 27, 52, 0.06);
+  --shadow-md: 0 4px 16px rgba(27, 27, 52, 0.1);
+  --shadow-lg: 0 16px 40px rgba(27, 27, 52, 0.18);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 0.16s;
 
-  --sans: -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-
-  font: 16px/1.5 var(--sans);
+  font: var(--fs-base) / 1.55 var(--sans);
   color-scheme: light;
   color: var(--text);
   background: var(--bg);
@@ -57,26 +109,37 @@ body {
   min-height: 100svh;
 }
 
-h1,
+/* Page titles carry the identity: display serif. Everything else stays sans. */
+h1 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--fs-2xl);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  margin: 0;
+}
+
 h2,
 h3,
 h4 {
+  font-family: var(--sans);
   color: var(--ink);
   font-weight: 700;
   line-height: 1.25;
-  letter-spacing: -0.01em;
-}
-
-h1 {
-  font-size: 1.75rem;
+  margin: 0;
 }
 
 h2 {
-  font-size: 1.375rem;
+  font-size: var(--fs-xl);
 }
 
 h3 {
-  font-size: 1.125rem;
+  font-size: var(--fs-lg);
+}
+
+h4 {
+  font-size: var(--fs-md);
 }
 
 a {
@@ -88,7 +151,24 @@ a:hover {
   text-decoration: underline;
 }
 
-/* A single, consistent focus indicator across the whole app. */
+/* Data figures — counts, %, criterion codes, page labels — set in mono so the
+   numbers read as instrument readouts, not prose. */
+.num {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Small uppercase eyebrow/label */
+.eyebrow {
+  font-size: var(--fs-2xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* One consistent, highly visible focus indicator. */
 :focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
@@ -97,4 +177,15 @@ a:hover {
 
 :focus:not(:focus-visible) {
   outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

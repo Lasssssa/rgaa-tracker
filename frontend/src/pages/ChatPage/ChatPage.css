@@ -8,16 +8,16 @@
 }
 
 .chat-header {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
 }
 
 .chat-header h1 {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: var(--fs-xl);
 }
 
 .chat-header .subtitle {
-  margin: 0.25rem 0 0;
+  margin: var(--space-1) 0 0;
   color: var(--muted);
 }
 
@@ -27,8 +27,8 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 0.5rem 0.25rem;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-1);
 }
 
 .chat-empty {
@@ -52,7 +52,7 @@
 .chat-bubble {
   max-width: 75%;
   padding: 0.65rem 0.9rem;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
@@ -109,9 +109,9 @@
 /* Input */
 .chat-input {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
   align-items: flex-end;
-  padding-top: 0.75rem;
+  padding-top: var(--space-3);
   border-top: 1px solid var(--border);
 }
 
@@ -121,8 +121,8 @@
   max-height: 160px;
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  font-size: 0.95rem;
+  border-radius: var(--radius);
+  font-size: var(--fs-base);
   font-family: inherit;
   background: var(--surface);
   color: var(--text);

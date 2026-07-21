@@ -8,25 +8,21 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.projects-header h1 {
-  margin: 0;
-  font-size: 1.9rem;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
 }
 
 .subtitle {
-  margin: 0.25rem 0 0;
+  margin: var(--space-1) 0 0;
   color: var(--muted);
+  font-size: var(--fs-sm);
 }
 
 /* One full-width card per line */
 .projects-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
 
 .project-card {
@@ -57,7 +53,7 @@
 
 .project-card-title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: var(--fs-md);
 }
 
 .project-card-title a {
@@ -85,7 +81,7 @@
 .project-card-client {
   margin: 0.2rem 0 0;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
 }
 
 .project-card-stats {
@@ -102,7 +98,7 @@
 
 .project-card-stats dt {
   margin: 0;
-  font-size: 0.68rem;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--muted);
@@ -111,19 +107,24 @@
 
 .project-card-stats dd {
   margin: 0.15rem 0 0;
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--mono);
+  font-size: var(--fs-base);
+  font-weight: 600;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
+/* The error count is the row's key metric — emphasised by size, in neutral
+   ink (blue would misread as "good/link" for what is a problem count). */
 .project-card-stats .stat-accent dd {
-  color: var(--accent-text);
+  font-size: var(--fs-lg);
+  line-height: 1;
 }
 
 .project-card-actions {
   position: relative;
   z-index: 1;
   display: flex;
-  gap: 0.5rem;
+  gap: var(--space-2);
 }

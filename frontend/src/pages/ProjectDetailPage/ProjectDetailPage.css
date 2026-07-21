@@ -1,15 +1,15 @@
 .project-detail {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2rem 2rem 4rem;
+  padding: var(--space-6) var(--space-6) var(--space-8);
 }
 
 .back-link {
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
   color: var(--accent-text);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
 }
 
 .back-link:hover {
@@ -21,143 +21,238 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--space-4);
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
-
-.detail-header h1 {
-  margin: 0;
-  font-size: 1.9rem;
+  margin-bottom: var(--space-5);
 }
 
 .detail-meta {
   display: flex;
   align-items: baseline;
-  gap: 0.75rem;
+  gap: var(--space-3);
   flex-wrap: wrap;
-  margin: 0.35rem 0 0;
+  margin: var(--space-2) 0 0;
   color: var(--muted);
 }
 
 .detail-meta > span:first-child:not(.detail-dates) {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text);
 }
 
 .detail-dates {
-  font-size: 0.82rem;
+  font-size: var(--fs-sm);
 }
 
-/* Cards row */
-.detail-cards {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.detail-card {
+/* ------------------------------------------------------------------ *
+ * Audit summary — the thesis: remediation figure + severity ledger + meta
+ * ------------------------------------------------------------------ */
+.audit-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5) var(--space-7);
+  padding: var(--space-5) var(--space-6);
+  margin-bottom: var(--space-6);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-lg);
 }
 
-/* Info card */
-.info-card dl {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem 1.5rem;
-  margin: 0;
-  height: 100%;
-  align-content: center;
+.audit-thesis {
+  flex: 0 0 auto;
+  min-width: 150px;
 }
 
-.info-card dt {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-  margin-bottom: 0.3rem;
+.audit-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 0.1rem;
+  margin: var(--space-1) 0 var(--space-2);
 }
 
-.info-card dd {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--ink);
-  font-weight: 500;
-}
-
-/* Progress card */
-.progress-title {
-  margin: 0 0 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-}
-
-.progress-figure {
-  margin: 0 0 0.75rem;
-  font-size: 1.9rem;
+.audit-figure-value {
+  font-size: var(--fs-4xl);
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.1;
+  line-height: 0.9;
 }
 
-.progress-total {
-  font-size: 0.95rem;
-  font-weight: 500;
+.audit-figure-unit {
+  font-family: var(--mono);
+  font-size: var(--fs-lg);
   color: var(--muted);
 }
 
-.progress-bar {
-  height: 8px;
+.audit-figure-sub {
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+.audit-progress {
+  height: 6px;
+  width: 100%;
+  max-width: 220px;
   border-radius: 999px;
   background: var(--surface-alt);
   overflow: hidden;
 }
 
-.progress-fill {
+.audit-progress-fill {
   height: 100%;
+  background: var(--success);
   border-radius: 999px;
-  background: var(--accent);
-  transition: width 0.3s ease;
+  transition: width 0.5s var(--ease);
 }
 
-.progress-percent {
-  margin: 0.5rem 0 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent-text);
+.audit-thesis-empty {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: var(--fs-sm);
 }
 
-.progress-empty {
+.audit-ledger {
+  flex: 1 1 240px;
+  min-width: 220px;
+}
+
+.audit-meta {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: var(--space-3) var(--space-6);
   margin: 0;
+}
+
+.audit-meta dt {
+  margin: 0 0 var(--space-1);
+}
+
+.audit-meta dd {
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* Severity ledger (the signature) */
+.severity-ledger {
+  margin: 0;
+  width: 100%;
+}
+
+.severity-bar {
+  display: flex;
+  gap: 2px;
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: var(--space-2) 0 var(--space-3);
+  background: var(--surface-alt);
+  /* One orchestrated reveal: the meter draws in on load, like an instrument
+     taking a reading. Disabled under prefers-reduced-motion (global rule). */
+  transform-origin: left center;
+  animation: ledger-draw 0.5s var(--ease) both;
+}
+
+@keyframes ledger-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.severity-seg {
+  display: block;
+  min-width: 4px;
+}
+
+.severity-seg.severity-empty {
+  flex: 1;
+  background: var(--surface-alt);
+}
+
+.severity-seg.sev-critical {
+  background: var(--sev-critical-solid);
+}
+.severity-seg.sev-major {
+  background: var(--sev-major-solid);
+}
+.severity-seg.sev-moderate {
+  background: var(--sev-moderate-solid);
+}
+.severity-seg.sev-minor {
+  background: var(--sev-minor-solid);
+}
+
+.severity-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1) var(--space-5);
+}
+
+.severity-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-sm);
+}
+
+.severity-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.severity-dot.sev-critical {
+  background: var(--sev-critical-solid);
+}
+.severity-dot.sev-major {
+  background: var(--sev-major-solid);
+}
+.severity-dot.sev-moderate {
+  background: var(--sev-moderate-solid);
+}
+.severity-dot.sev-minor {
+  background: var(--sev-minor-solid);
+}
+
+.severity-legend-label {
   color: var(--muted);
 }
 
-/* Tabs: errors / issues */
+.severity-legend-count {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* Tabs: errors / pages / issues */
 .detail-tabs {
   display: flex;
-  gap: 0.25rem;
+  gap: var(--space-1);
   border-bottom: 1px solid var(--border);
 }
 
 .detail-tab {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
   margin-bottom: -1px;
   border: none;
   border-bottom: 2px solid transparent;
   background: none;
   color: var(--muted);
   font-family: inherit;
-  font-size: 0.98rem;
+  font-size: var(--fs-base);
   font-weight: 500;
   cursor: pointer;
 }
@@ -168,14 +263,14 @@
 
 .detail-tab.active {
   color: var(--ink);
-  font-weight: 600;
+  font-weight: 700;
   border-bottom-color: var(--accent);
 }
 
 .detail-tab:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .tab-count {
@@ -187,7 +282,8 @@
   border-radius: 999px;
   background: var(--surface-alt);
   border: 1px solid var(--border);
-  font-size: 0.75rem;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -201,17 +297,14 @@
 /* Responsive */
 @media (max-width: 760px) {
   .project-detail {
-    padding: 1.5rem 1rem 3rem;
+    padding: var(--space-5) var(--space-4) var(--space-7);
   }
 
-  .detail-cards {
-    grid-template-columns: 1fr;
+  .audit-summary {
+    gap: var(--space-5);
   }
-}
 
-@media (max-width: 560px) {
-  .info-card dl {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .audit-meta {
+    grid-template-columns: 1fr 1fr;
   }
 }

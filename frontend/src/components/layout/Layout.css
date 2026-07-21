@@ -8,7 +8,7 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--space-5);
   padding: 1.25rem 0.85rem;
   background: var(--surface);
   border-right: 1px solid var(--border);
@@ -33,31 +33,42 @@
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  padding: 0.35rem 0.5rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--ink);
-  white-space: nowrap;
+  padding: var(--space-1) var(--space-2) var(--space-2);
 }
 
-.brand-mark {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--radius-sm);
-  background: var(--accent);
-  color: var(--on-accent);
-  font-size: 1rem;
-  font-weight: 800;
+.brand-window {
+  display: block;
+  width: 100%;
 }
 
+.sidebar-logo {
+  display: block;
+  width: 100%;
+  max-width: 188px;
+  height: auto;
+}
+
+/* Collapsed: crop the horizontal lockup down to just the emblem (left of the
+   676x369 logo) via a fixed window + overflow, keeping the img (and its alt). */
 .sidebar.collapsed .sidebar-brand {
   justify-content: center;
-  padding: 0.35rem 0;
+  padding: var(--space-1) 0 var(--space-2);
+}
+
+.sidebar.collapsed .brand-window {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .sidebar-logo {
+  position: absolute;
+  left: -19px;
+  top: -20px;
+  width: auto;
+  height: 81px;
+  max-width: none;
 }
 
 /* Navigation */
@@ -76,7 +87,7 @@
   border-left: 3px solid transparent;
   color: var(--text);
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -118,7 +129,7 @@
   border-radius: var(--radius-sm);
   background: none;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   font-family: inherit;
   cursor: pointer;
   white-space: nowrap;
@@ -150,7 +161,7 @@
     width: auto;
     flex-direction: row;
     align-items: center;
-    gap: 1rem;
+    gap: var(--space-4);
     padding: 0.65rem 1rem;
     position: static;
     height: auto;

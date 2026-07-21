@@ -18,33 +18,33 @@
 .form-error {
   color: var(--error);
   background: var(--error-bg);
-  border: 1px solid transparent;
   border-left: 3px solid var(--error);
-  padding: 0.7rem 0.9rem;
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
-  margin: 0 0 1rem;
-  font-size: 0.95rem;
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-sm);
 }
 
 .empty {
   color: var(--muted);
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: var(--space-7) var(--space-4);
 }
 
-/* Buttons — DSFR-inspired: squared-ish, solid Blue France primary. */
+/* Buttons — solid working-blue primary, minimal radius. */
 .btn-primary,
 .btn-secondary,
 .btn-danger {
   border-radius: var(--radius-sm);
-  padding: 0.55rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--fs-sm);
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   transition:
-    background-color 0.12s ease,
-    color 0.12s ease;
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
 }
 
 .btn-primary {
@@ -96,14 +96,14 @@
 
 /* Confirm dialog */
 .confirm-modal h2 {
-  margin: 0 0 0.75rem;
-  font-size: 1.2rem;
+  margin: 0 0 var(--space-3);
+  font-size: var(--fs-lg);
 }
 
 .confirm-message {
   margin: 0;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Text / link buttons */
@@ -112,10 +112,10 @@
   border: none;
   color: var(--accent-text);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   font-weight: 500;
   font-family: inherit;
-  padding: 0.2rem 0.4rem;
+  padding: var(--space-1) var(--space-2);
   text-underline-offset: 0.2em;
 }
 
@@ -130,9 +130,9 @@
 /* Badges */
 .badge {
   display: inline-block;
-  padding: 0.15rem 0.55rem;
+  padding: 0.15rem var(--space-2);
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -148,37 +148,39 @@
 }
 
 .badge.severity-minor {
-  background: var(--surface-alt);
-  color: var(--muted);
+  background: var(--sev-minor-bg);
+  color: var(--sev-minor);
 }
 
 .badge.severity-moderate {
-  background: #fef3cd;
-  color: #695200;
+  background: var(--sev-moderate-bg);
+  color: var(--sev-moderate);
 }
 
 .badge.severity-major {
-  background: var(--warning-bg);
-  color: var(--warning-text);
+  background: var(--sev-major-bg);
+  color: var(--sev-major);
 }
 
 .badge.severity-critical {
-  background: var(--error-bg);
-  color: var(--error);
+  background: var(--sev-critical-bg);
+  color: var(--sev-critical);
 }
 
-/* Small chip for criterion codes */
+/* Criterion code chip — a data readout, so it is set in mono. */
 .criterion-chip {
   display: inline-flex;
   align-items: center;
   flex-shrink: 0;
-  padding: 0.1rem 0.5rem;
+  padding: 0.1rem var(--space-2);
   border-radius: var(--radius-sm);
   background: var(--accent-soft);
   color: var(--accent-text);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
@@ -186,18 +188,18 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 18, 0.5);
+  background: rgba(27, 27, 52, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: var(--space-4);
   z-index: 10;
 }
 
 .modal {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  padding: 1.75rem;
+  padding: var(--space-6);
   width: 100%;
   max-width: 440px;
   max-height: calc(100svh - 3rem);
@@ -211,15 +213,15 @@
 
 /* Forms (project & error forms share .project-form) */
 .project-form h2 {
-  margin: 0 0 1.25rem;
-  font-size: 1.3rem;
+  margin: 0 0 var(--space-5);
+  font-size: var(--fs-lg);
 }
 
 .project-form label {
   display: block;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-sm);
+  font-weight: 600;
   color: var(--ink);
 }
 
@@ -228,12 +230,12 @@
 .project-form select {
   display: block;
   width: 100%;
-  margin-top: 0.35rem;
-  padding: 0.55rem 0.7rem;
+  margin-top: var(--space-2);
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border);
   border-bottom: 2px solid var(--muted);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  font-size: 0.95rem;
+  font-size: var(--fs-sm);
   background: var(--surface);
   color: var(--text);
   font-family: inherit;
@@ -243,7 +245,7 @@
 .project-form input:focus,
 .project-form textarea:focus,
 .project-form select:focus {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-bottom-color: var(--accent);
 }
@@ -252,19 +254,19 @@
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
 }
 
 .form-label {
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: var(--fs-sm);
+  font-weight: 600;
   color: var(--ink);
 }
 
 .form-hint {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--muted);
 }
 
@@ -272,7 +274,7 @@
 .form-row {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 0.85rem;
+  gap: var(--space-3);
   align-items: start;
 }
 
@@ -285,6 +287,6 @@
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
