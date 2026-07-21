@@ -37,7 +37,7 @@ services:
       HTTPS_PROXY: ${HTTPS_PROXY:-}
       NO_PROXY: ${NO_PROXY:-}
     ports:
-      - "8001:8000"
+      - "8000:8000"
     volumes:
       - ./backend:/app
     depends_on:
