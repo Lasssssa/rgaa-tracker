@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import ProjectCard from '../../components/projects/ProjectCard'
 import ProjectForm from '../../components/projects/ProjectForm'
-import ProjectsTable from '../../components/projects/ProjectsTable'
 import ConfirmModal from '../../components/ui/ConfirmModal'
 import Modal from '../../components/ui/Modal'
 import { useProjects } from '../../hooks/useProjects'
@@ -70,11 +70,16 @@ export default function ProjectsPage() {
           Aucun projet pour l'instant. Créez-en un pour démarrer.
         </p>
       ) : (
-        <ProjectsTable
-          projects={projects}
-          onEdit={(project) => setDialog({ mode: 'edit', project })}
-          onDelete={(project) => setDialog({ mode: 'delete', project })}
-        />
+        <div className="projects-list">
+          {projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onEdit={(p) => setDialog({ mode: 'edit', project: p })}
+              onDelete={(p) => setDialog({ mode: 'delete', project: p })}
+            />
+          ))}
+        </div>
       )}
 
       {(dialog.mode === 'create' || dialog.mode === 'edit') && (

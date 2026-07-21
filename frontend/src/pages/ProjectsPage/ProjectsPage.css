@@ -1,5 +1,5 @@
 .projects-page {
-  max-width: 960px;
+  max-width: 1080px;
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
 }
@@ -22,59 +22,108 @@
   color: var(--muted);
 }
 
-.table-wrapper {
-  overflow-x: auto;
+/* One full-width card per line */
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  padding: 1.1rem 1.4rem;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
+  transition:
+    box-shadow 0.15s ease,
+    border-color 0.15s ease;
 }
 
-.projects-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
+.project-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
 }
 
-.projects-table th,
-.projects-table td {
-  text-align: left;
-  padding: 0.85rem 1rem;
-  border-bottom: 1px solid var(--border);
+/* Name + client — grows to push the stats and actions to the right. */
+.project-card-heading {
+  flex: 1 1 220px;
+  min-width: 0;
 }
 
-.projects-table thead th {
-  background: var(--surface-alt);
-  font-weight: 600;
-  color: var(--muted);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+.project-card-title {
+  margin: 0;
+  font-size: 1.1rem;
 }
 
-.projects-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.projects-table tbody tr:hover {
-  background: var(--surface-alt);
-}
-
-.project-link {
-  color: var(--accent-text);
+.project-card-title a {
+  color: var(--ink);
   text-decoration: none;
-  font-weight: 500;
 }
 
-.project-link:hover {
-  text-decoration: underline;
+.project-card:hover .project-card-title a {
+  color: var(--accent-text);
 }
 
-.actions-col {
-  white-space: nowrap;
-  text-align: right;
+/* Stretch the title link over the whole card so a click anywhere navigates,
+   while the actions stay clickable (they sit above via z-index). */
+.project-card-title a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
 }
 
-@media (max-width: 560px) {
-  .actions-col {
-    text-align: left;
-  }
+.project-card-title a:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.project-card-client {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.project-card-stats {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+}
+
+.project-card-stats .stat {
+  margin: 0;
+  min-width: 4.25rem;
+}
+
+.project-card-stats dt {
+  margin: 0;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.project-card-stats dd {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.project-card-stats .stat-accent dd {
+  color: var(--accent-text);
+}
+
+.project-card-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
 }
