@@ -20,20 +20,6 @@ FROM ${NODE_IMAGE}
 
 WORKDIR /app
 
-# Optional: trust extra CA certificates (see certs/README.md). Drop PEM files
-# named *.crt into certs/; an empty folder is a no-op. update-ca-certificates
-# merges them into the OS bundle and NODE_EXTRA_CA_CERTS makes node and npm
-# trust it — e.g. to install from a registry behind a TLS-intercepting proxy.
-# node:slim (Debian) ships without the ca-certificates package, so install it
-# first — unlike python:slim, which already includes it.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-COPY certs/ /usr/local/share/ca-certificates/
-RUN update-ca-certificates -v
-
-ENV NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-certificates.crt
-
 COPY frontend/package*.json ./
 RUN npm install
 
