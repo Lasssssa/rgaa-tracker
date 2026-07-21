@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react'
 import { projectsApi } from '../../api'
+import { useImport } from '../../hooks/useImport'
+import ImportReviewModal from '../imports/ImportReviewModal'
+import '../imports/ImportReviewModal.css'
 import { UploadIcon } from '../ui/icons'
 
 type UploadStatus =
@@ -13,14 +16,19 @@ const MAX_PDF_SIZE = 100 * 1024 * 1024 // keep in sync with the API limit
 interface EmptyErrorsStateProps {
   projectId: number
   onCreateManually: () => void
+  /** Called after imported errors/pages have been persisted, so the parent
+   * can refresh both lists. */
+  onImported: () => void
 }
 
 export default function EmptyErrorsState({
   projectId,
   onCreateManually,
+  onImported,
 }: EmptyErrorsStateProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [status, setStatus] = useState<UploadStatus>({ state: 'idle' })
+  const imp = useImport()
 
   async function handleFile(file: File | undefined) {
     if (!file) return
@@ -52,6 +60,14 @@ export default function EmptyErrorsState({
     }
   }
 
+  async function handleConfirm(edited: Parameters<typeof imp.confirm>[0]) {
+    await imp.confirm(edited)
+    onImported()
+  }
+
+  const extracting =
+    imp.phase.status === 'starting' || imp.phase.status === 'running'
+
   if (status.state === 'done') {
     return (
       <div className="empty-errors">
@@ -59,18 +75,48 @@ export default function EmptyErrorsState({
           <p className="upload-done-title">
             Rapport « {status.filename} » importé
           </p>
-          <p className="upload-done-hint">
-            L'extraction automatique des erreurs sera bientôt disponible. En
-            attendant, vous pouvez saisir les erreurs manuellement.
-          </p>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={onCreateManually}
-          >
-            + Saisir une erreur
-          </button>
+          {imp.phase.status === 'failed' ? (
+            <p className="page-error" role="alert">
+              {imp.phase.message}
+            </p>
+          ) : (
+            <p className="upload-done-hint">
+              Lancez l'extraction automatique des erreurs, ou saisissez-les
+              manuellement.
+            </p>
+          )}
+          <div className="upload-done-actions">
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => imp.start(projectId)}
+              disabled={extracting}
+            >
+              {extracting ? 'Extraction en cours…' : 'Extraire les erreurs'}
+            </button>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={onCreateManually}
+            >
+              Saisir manuellement
+            </button>
+          </div>
+          {extracting && (
+            <p className="upload-done-hint">
+              L'analyse du PDF peut prendre jusqu'à une minute.
+            </p>
+          )}
         </div>
+
+        {(imp.phase.status === 'ready' || imp.phase.status === 'confirming') && (
+          <ImportReviewModal
+            preview={imp.phase.preview}
+            confirming={imp.phase.status === 'confirming'}
+            onConfirm={handleConfirm}
+            onClose={imp.reset}
+          />
+        )}
       </div>
     )
   }

@@ -181,12 +181,15 @@ interface ErrorsSectionProps {
   state: ReturnType<typeof useErrors>
   /** The project's audited pages, to attach errors to. */
   pages: Page[]
+  /** Called after a PDF import created errors/pages, so both lists refresh. */
+  onImported: () => void
 }
 
 export default function ErrorsSection({
   projectId,
   state,
   pages,
+  onImported,
 }: ErrorsSectionProps) {
   const {
     errors,
@@ -276,6 +279,7 @@ export default function ErrorsSection({
         <EmptyErrorsState
           projectId={projectId}
           onCreateManually={() => setDialog({ mode: 'create' })}
+          onImported={onImported}
         />
       ) : (
         groups.map((group) => (

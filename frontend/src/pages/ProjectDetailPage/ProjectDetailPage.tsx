@@ -164,6 +164,10 @@ export default function ProjectDetailPage() {
                 projectId={project.id}
                 state={errorsState}
                 pages={pagesState.pages}
+                onImported={() => {
+                  errorsState.reload()
+                  pagesState.reload()
+                }}
               />
             </div>
           ) : tab === 'pages' ? (
