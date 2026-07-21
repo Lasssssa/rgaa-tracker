@@ -18,14 +18,21 @@ class Settings(BaseSettings):
     # (response_format json_schema). When false, we fall back to json_object
     # mode plus strict validation and one repair retry.
     llm_guided_json: bool = False
-    # Cap on the extraction response. Kept modest so worst-case generation stays
-    # short; a very large report with many errors could exceed it and truncate
-    # the JSON — raise it (or add chunking) if so.
+    # Cap on each chunk's response. With chunking (see llm_chunk_char_size) a
+    # single chunk holds only a few errors, so this stays comfortably out of the
+    # way; it is a safety cap, not a target.
     llm_max_output_tokens: int = 4096
     # Number of times to call the model when trying to get a valid JSON
     # response. Each attempt after the first re-prompts the model with a repair
     # hint. Raise it for less deterministic models that often need several tries.
     llm_max_attempts: int = 4
+    # The report is split into chunks of at most this many characters (on
+    # paragraph boundaries) and each chunk is extracted with its own small call,
+    # then the results are merged. This keeps every response short so a big
+    # report can't truncate the JSON. As a rule of thumb ~4 chars ≈ 1 token, so
+    # 6000 chars ≈ 1500 input tokens per chunk. Set to 0 to disable chunking and
+    # send the whole report in a single call.
+    llm_chunk_char_size: int = 6000
 
 
 settings = Settings()
