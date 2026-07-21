@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8001'
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
 /** Build a human-readable error from an API response: surface the API's
  * `detail` message when there is one, never raw JSON or status lines. */
