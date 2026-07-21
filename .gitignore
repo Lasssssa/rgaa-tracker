@@ -12,5 +12,10 @@ dist/
 # Uploaded files (audit reports)
 backend/uploads/
 
+# Custom CA certificates — never commit the certs themselves
+certs/*
+!certs/.gitkeep
+!certs/README.md
+
 # OS / editor
 .DS_Store

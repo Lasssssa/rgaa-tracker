@@ -1,0 +1,17 @@
+# Build context is the repo root (both images build from here), so keep heavy
+# and irrelevant paths out of it.
+.git
+**/__pycache__
+**/*.pyc
+**/.venv
+**/venv
+**/.env
+**/.DS_Store
+*.log
+
+# Backend
+backend/uploads
+
+# Frontend
+frontend/node_modules
+frontend/dist
