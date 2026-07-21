@@ -18,9 +18,10 @@ class Settings(BaseSettings):
     # (response_format json_schema). When false, we fall back to json_object
     # mode plus strict validation and one repair retry.
     llm_guided_json: bool = False
-    # Cap on the extraction response. A very large report with many errors can
-    # exceed this and truncate the JSON — raise it (or add chunking) if so.
-    llm_max_output_tokens: int = 16384
+    # Cap on the extraction response. Kept modest so worst-case generation stays
+    # short; a very large report with many errors could exceed it and truncate
+    # the JSON — raise it (or add chunking) if so.
+    llm_max_output_tokens: int = 4096
 
 
 settings = Settings()

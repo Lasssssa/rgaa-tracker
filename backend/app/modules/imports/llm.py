@@ -1,9 +1,11 @@
 """Calls the vLLM server to turn an audit report's text into structured errors.
 
 vLLM exposes an OpenAI-compatible API, so the OpenAI SDK is used as the client.
-When the server supports guided JSON (``response_format`` with a schema) the
-output is schema-guaranteed; otherwise we ask for a JSON object, validate it
-strictly with Pydantic, and retry once with a repair hint if it does not parse.
+The call is streamed and reassembled here (so a reverse proxy in front of the
+model does not 504 on a long generation). When the server supports guided JSON
+(``response_format`` with a schema) the output is schema-guaranteed; otherwise
+we ask for a JSON object, validate it strictly with Pydantic, and retry once
+with a repair hint if it does not parse.
 """
 
 from __future__ import annotations
@@ -11,7 +13,7 @@ from __future__ import annotations
 import json
 import logging
 
-from openai import AsyncOpenAI
+from openai import APIError, AsyncOpenAI
 from pydantic import ValidationError
 
 from app.core.config import settings
@@ -140,6 +142,40 @@ def _parse(content: str) -> LlmExtraction:
     return LlmExtraction.model_validate(data)
 
 
+async def _complete(client: AsyncOpenAI, messages: list[dict]) -> str:
+    """Run one streamed completion and return the accumulated text.
+
+    The call is streamed on purpose: a large report can take a while to
+    generate, and a non-streaming request keeps the connection silent until the
+    whole response is ready — long enough for a reverse proxy in front of the
+    model to return a 504 Gateway Timeout. Streaming sends tokens as they come,
+    which keeps the connection alive; we reassemble them into the full JSON here
+    before parsing.
+    """
+    try:
+        stream = await client.chat.completions.create(
+            model=settings.vllm_model,
+            messages=messages,
+            max_tokens=settings.llm_max_output_tokens,
+            temperature=0,
+            response_format=_response_format(),
+            stream=True,
+        )
+        chunks: list[str] = []
+        async for chunk in stream:
+            if not chunk.choices:
+                continue
+            delta = chunk.choices[0].delta.content
+            if delta:
+                chunks.append(delta)
+        return "".join(chunks)
+    except APIError as exc:
+        logger.error("vLLM request failed: %s", exc)
+        raise LlmExtractionError(
+            f"Échec de l'appel au modèle vLLM : {exc}"
+        ) from exc
+
+
 async def extract(report_text: str) -> LlmExtraction:
     """Run the extraction, retrying once on an unparseable response."""
     client = _build_client()
@@ -155,14 +191,7 @@ async def extract(report_text: str) -> LlmExtraction:
     ]
 
     for attempt in range(2):
-        completion = await client.chat.completions.create(
-            model=settings.vllm_model,
-            messages=messages,
-            max_tokens=settings.llm_max_output_tokens,
-            temperature=0,
-            response_format=_response_format(),
-        )
-        content = completion.choices[0].message.content or ""
+        content = await _complete(client, messages)
         try:
             return _parse(content)
         except (json.JSONDecodeError, ValidationError) as exc:
