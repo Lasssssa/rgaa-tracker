@@ -4,8 +4,8 @@ vLLM exposes an OpenAI-compatible API, so the OpenAI SDK is used as the client.
 The call is streamed and reassembled here (so a reverse proxy in front of the
 model does not 504 on a long generation). When the server supports guided JSON
 (``response_format`` with a schema) the output is schema-guaranteed; otherwise
-we ask for a JSON object, validate it strictly with Pydantic, and retry once
-with a repair hint if it does not parse.
+we ask for a JSON object, validate it strictly with Pydantic, and retry with a
+repair hint if it does not parse (up to ``LLM_MAX_ATTEMPTS`` times).
 """
 
 from __future__ import annotations
@@ -190,13 +190,19 @@ async def extract(report_text: str) -> LlmExtraction:
         },
     ]
 
-    for attempt in range(2):
+    max_attempts = max(1, settings.llm_max_attempts)
+    for attempt in range(max_attempts):
         content = await _complete(client, messages)
         try:
             return _parse(content)
         except (json.JSONDecodeError, ValidationError) as exc:
-            logger.warning("Extraction parse failed (attempt %d): %s", attempt + 1, exc)
-            if attempt == 0:
+            logger.warning(
+                "Extraction parse failed (attempt %d/%d): %s",
+                attempt + 1,
+                max_attempts,
+                exc,
+            )
+            if attempt < max_attempts - 1:
                 messages.append({"role": "assistant", "content": content})
                 messages.append(
                     {
@@ -210,5 +216,6 @@ async def extract(report_text: str) -> LlmExtraction:
                 )
 
     raise LlmExtractionError(
-        "Le modèle n'a pas renvoyé de JSON exploitable après deux tentatives."
+        f"Le modèle n'a pas renvoyé de JSON exploitable après {max_attempts} "
+        "tentatives."
     )

@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     # short; a very large report with many errors could exceed it and truncate
     # the JSON — raise it (or add chunking) if so.
     llm_max_output_tokens: int = 4096
+    # Number of times to call the model when trying to get a valid JSON
+    # response. Each attempt after the first re-prompts the model with a repair
+    # hint. Raise it for less deterministic models that often need several tries.
+    llm_max_attempts: int = 4
 
 
 settings = Settings()
