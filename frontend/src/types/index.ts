@@ -5,6 +5,14 @@ export type {
   MethodologyTest,
   Thematic,
 } from './criteria'
+export type {
+  ConfirmResult,
+  ExtractionPreview,
+  ImportJob,
+  ImportJobStatus,
+  PreviewError,
+  PreviewPage,
+} from './import'
 export type { Issue, IssueInput } from './issue'
 export type { Page, PageInput } from './page'
 export type { Project, ProjectInput } from './project'
