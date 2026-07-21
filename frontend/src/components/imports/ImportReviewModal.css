@@ -103,8 +103,8 @@
   align-items: center;
   padding: 0.1rem 0.5rem;
   border-radius: 6px;
-  background: #fdf0e4;
-  color: #9a5b1c;
+  background: var(--warning-bg);
+  color: var(--warning-text);
   font-size: 0.72rem;
   font-weight: 600;
   white-space: nowrap;

@@ -11,8 +11,8 @@ import {
 const STORAGE_KEY = 'sidebar-collapsed'
 
 const NAV_ITEMS = [
-  { to: '/projects', label: 'Projects', Icon: FolderIcon },
-  { to: '/criterias', label: 'Criterias', Icon: ListChecksIcon },
+  { to: '/projects', label: 'Projets', Icon: FolderIcon },
+  { to: '/criterias', label: 'Critères', Icon: ListChecksIcon },
   { to: '/chat', label: 'Chat', Icon: MessageCircleIcon },
 ]
 

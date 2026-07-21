@@ -195,7 +195,7 @@
 .detail-tab.active .tab-count {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--ink);
+  color: var(--on-accent);
 }
 
 /* Responsive */

@@ -16,12 +16,14 @@
 /* Feedback */
 .page-error,
 .form-error {
-  color: #b91c1c;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  padding: 0.6rem 0.8rem;
-  border-radius: 8px;
+  color: var(--error);
+  background: var(--error-bg);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--error);
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--radius-sm);
   margin: 0 0 1rem;
+  font-size: 0.95rem;
 }
 
 .empty {
@@ -30,58 +32,65 @@
   padding: 2.5rem 1rem;
 }
 
-/* Buttons */
+/* Buttons — DSFR-inspired: squared-ish, solid Blue France primary. */
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
 .btn-primary {
   background: var(--accent);
-  color: var(--ink);
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-primary:active {
+  background: var(--accent-active);
 }
 
 .btn-primary:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: default;
+  background: var(--accent);
 }
 
 .btn-secondary {
   background: var(--surface);
-  color: var(--ink);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
-  cursor: pointer;
+  color: var(--accent-text);
+  border: 1px solid var(--accent);
 }
 
 .btn-secondary:hover {
-  background: var(--surface-alt);
+  background: var(--accent-soft);
 }
 
 .btn-danger {
-  background: #dc2626;
+  background: var(--error);
   color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
+  border: 1px solid var(--error);
 }
 
 .btn-danger:hover {
-  background: #b91c1c;
+  background: var(--error-hover);
+  border-color: var(--error-hover);
 }
 
 .btn-danger:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: default;
 }
 
@@ -97,6 +106,7 @@
   line-height: 1.5;
 }
 
+/* Text / link buttons */
 .btn-link {
   background: none;
   border: none;
@@ -104,55 +114,57 @@
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 500;
+  font-family: inherit;
   padding: 0.2rem 0.4rem;
+  text-underline-offset: 0.2em;
 }
 
 .btn-link.danger {
-  color: #dc2626;
+  color: var(--error);
 }
 
 .btn-link:hover {
   text-decoration: underline;
 }
 
-/* Status badge */
+/* Badges */
 .badge {
   display: inline-block;
-  padding: 0.15rem 0.6rem;
-  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-sm);
   font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .badge.todo {
-  background: rgba(234, 179, 8, 0.16);
-  color: #92610a;
+  background: var(--warning-bg);
+  color: var(--warning-text);
 }
 
 .badge.patched {
-  background: var(--accent-soft);
-  color: var(--accent-text);
+  background: var(--success-bg);
+  color: var(--success);
 }
 
 .badge.severity-minor {
-  background: rgba(100, 116, 139, 0.14);
-  color: #52616e;
+  background: var(--surface-alt);
+  color: var(--muted);
 }
 
 .badge.severity-moderate {
-  background: rgba(234, 179, 8, 0.16);
-  color: #92610a;
+  background: #fef3cd;
+  color: #695200;
 }
 
 .badge.severity-major {
-  background: rgba(249, 115, 22, 0.16);
-  color: #c2410c;
+  background: var(--warning-bg);
+  color: var(--warning-text);
 }
 
 .badge.severity-critical {
-  background: rgba(220, 38, 38, 0.12);
-  color: #b91c1c;
+  background: var(--error-bg);
+  color: var(--error);
 }
 
 /* Small chip for criterion codes */
@@ -161,9 +173,9 @@
   align-items: center;
   flex-shrink: 0;
   padding: 0.1rem 0.5rem;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--ink);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: var(--accent-text);
   font-size: 0.78rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -174,7 +186,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(28, 64, 73, 0.4);
+  background: rgba(0, 0, 18, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,13 +196,13 @@
 
 .modal {
   background: var(--surface);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   padding: 1.75rem;
   width: 100%;
   max-width: 440px;
   max-height: calc(100svh - 3rem);
   overflow-y: auto;
-  box-shadow: 0 20px 50px rgba(28, 64, 73, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 .modal.modal-lg {
@@ -219,7 +231,8 @@
   margin-top: 0.35rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-bottom: 2px solid var(--muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   font-size: 0.95rem;
   background: var(--surface);
   color: var(--text);
@@ -230,9 +243,9 @@
 .project-form input:focus,
 .project-form textarea:focus,
 .project-form select:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-  border-color: var(--accent);
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-bottom-color: var(--accent);
 }
 
 /* Non-label form field (widget manages its own inputs) */

@@ -134,7 +134,7 @@
 .toc-link.active .toc-number {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--ink);
+  color: var(--on-accent);
 }
 
 .toc-name {
@@ -173,7 +173,7 @@
   height: 1.8rem;
   border-radius: 8px;
   background: var(--accent);
-  color: var(--ink);
+  color: var(--on-accent);
   font-size: 0.9rem;
   font-weight: 700;
 }
