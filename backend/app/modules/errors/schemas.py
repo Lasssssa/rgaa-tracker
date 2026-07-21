@@ -57,6 +57,7 @@ class ErrorRead(ErrorBase):
     id: int
     project_id: int
     severity: str
+    source: str
     criterion: ErrorCriterion | None
     issue_id: int | None
     page: ErrorPage | None

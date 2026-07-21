@@ -50,6 +50,12 @@ class Error(Base):
     is_patched: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default="false", default=False
     )
+    # How the error entered the system: "manual" (created in the UI) or
+    # "imported" (extracted from the audit PDF). Lets reviewed and AI-produced
+    # data be told apart.
+    source: Mapped[str] = mapped_column(
+        String(20), nullable=False, server_default="manual", default="manual"
+    )
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), nullable=False

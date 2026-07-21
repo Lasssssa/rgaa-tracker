@@ -16,6 +16,9 @@ from app.modules.issues import models as _issues_models  # noqa: F401
 from app.modules.issues.router import router as issues_router
 from app.modules.pages import models as _pages_models  # noqa: F401
 from app.modules.pages.router import router as pages_router
+from app.modules.imports import models as _imports_models  # noqa: F401
+from app.modules.imports.router import router as imports_router
+from app.modules.imports.service import InvalidJobStateError
 
 Base.metadata.create_all(bind=engine)
 
@@ -33,6 +36,17 @@ with engine.begin() as connection:
             "CREATE INDEX IF NOT EXISTS ix_errors_page_id "
             "ON errors (page_id)"
         )
+    )
+    # Provenance of an error: manual vs imported from the audit PDF.
+    connection.execute(
+        text(
+            "ALTER TABLE errors ADD COLUMN IF NOT EXISTS source VARCHAR(20) "
+            "NOT NULL DEFAULT 'manual'"
+        )
+    )
+    # Sample label ("P01"...) used to match errors extracted from the PDF.
+    connection.execute(
+        text("ALTER TABLE pages ADD COLUMN IF NOT EXISTS label VARCHAR(50)")
     )
 
 app = FastAPI(title="RGAA Tracker API")
@@ -62,11 +76,19 @@ def handle_invalid_file(_: Request, exc: InvalidFileError) -> JSONResponse:
     )
 
 
+@app.exception_handler(InvalidJobStateError)
+def handle_invalid_job_state(_: Request, exc: InvalidJobStateError) -> JSONResponse:
+    return JSONResponse(
+        status_code=status.HTTP_409_CONFLICT, content={"detail": str(exc)}
+    )
+
+
 app.include_router(criteria_router)
 app.include_router(projects_router)
 app.include_router(errors_router)
 app.include_router(issues_router)
 app.include_router(pages_router)
+app.include_router(imports_router)
 
 
 @app.get("/")

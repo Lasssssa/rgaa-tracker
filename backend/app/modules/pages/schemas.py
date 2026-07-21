@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class PageBase(BaseModel):
+    label: str | None = Field(default=None, max_length=50)
     name: str = Field(min_length=1, max_length=255)
     url: str | None = Field(default=None, max_length=2048)
 
@@ -13,6 +14,7 @@ class PageCreate(PageBase):
 
 
 class PageUpdate(BaseModel):
+    label: str | None = Field(default=None, max_length=50)
     name: str | None = Field(default=None, min_length=1, max_length=255)
     url: str | None = Field(default=None, max_length=2048)
 

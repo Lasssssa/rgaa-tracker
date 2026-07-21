@@ -21,6 +21,11 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/rgaa_tracker
+      VLLM_BASE_URL: ${VLLM_BASE_URL:-http://localhost:8000/v1}
+      VLLM_MODEL: ${VLLM_MODEL:-}
+      VLLM_API_KEY: ${VLLM_API_KEY:-EMPTY}
+      LLM_GUIDED_JSON: ${LLM_GUIDED_JSON:-false}
+      LLM_MAX_OUTPUT_TOKENS: ${LLM_MAX_OUTPUT_TOKENS:-16384}
     ports:
       - "8001:8000"
     volumes:

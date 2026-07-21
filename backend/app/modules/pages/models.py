@@ -24,6 +24,10 @@ class Page(Base):
     project_id: Mapped[int] = mapped_column(
         ForeignKey("projects.id", ondelete="CASCADE"), index=True, nullable=False
     )
+    # Short sample label used by audit reports, e.g. "P01". Optional because
+    # pages created by hand may not have one; used to match errors extracted
+    # from the PDF (which reference pages as "P01", "toutes les pages"...).
+    label: Mapped[str | None] = mapped_column(String(50), nullable=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     url: Mapped[str | None] = mapped_column(String(2048), nullable=True)
 
