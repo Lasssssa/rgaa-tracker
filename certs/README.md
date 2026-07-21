@@ -20,8 +20,6 @@ TLS-intercepting corporate proxy.
     library, `httpx`, `requests` and the OpenAI/vLLM client at
     `/etc/ssl/certs/ca-certificates.crt`, and `pip-system-certs` makes pip and
     any certifi-based client use the OS trust store too.
-  - **frontend** — `NODE_EXTRA_CA_CERTS` makes node and npm trust the same
-    bundle (e.g. installing from a registry behind a private CA).
 
 ## Proxy vs. certificates
 
